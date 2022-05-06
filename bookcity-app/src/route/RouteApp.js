@@ -1,5 +1,5 @@
 import React from "react";
-import { Routes,Route } from "react-router-dom";
+import { BrowserRouter, Routes,Route } from "react-router-dom";
 import LayoutAdmin from '../layout/LayoutAdmin'
 import LayoutUser from '../layout/LayoutUser';
 
@@ -12,6 +12,7 @@ import Detail from '../pages/Detail'
 import Buy from '../pages/Buy'
 export default function RouteApp() {
   return (
+    <BrowserRouter>
     <Routes>
       <Route path="/" element={<LayoutUser><Home /></LayoutUser>}/>
       <Route  path="/product" element={<LayoutUser><SubGroup /></LayoutUser>}/>
@@ -21,5 +22,6 @@ export default function RouteApp() {
       <Route  path="/LogIn" element={< LogIn/>}/>
       <Route  path="/Dashboard" element={<LayoutAdmin>< Dashboard/></LayoutAdmin>}/>  
     </Routes>
+    </BrowserRouter>
   );
 }
