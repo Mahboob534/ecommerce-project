@@ -11,6 +11,7 @@ import ProtectedRoute from "../route/protectedRoute/ProtectedRoute";
 export default function RouteApp() {
   return (
     <BrowserRouter>
+    
       <Routes>
         <Route
           path={PATHS.HOME}
