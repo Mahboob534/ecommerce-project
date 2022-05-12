@@ -34,26 +34,9 @@ const validate = (values) => {
 
 const LogIn = () => {
  
-  const [userInfo, setUserInfo] = useState({"username" : "admin", "password":"admin"});
-   useEffect(() => {
-  //   axios
-  //     .post("/auth/login",userInfo)
-  //     .then((res) =>{ 
-  //     navigate(PATHS.DASHBOARD)
-  //     setUserInfo(res.data)});
-  axios.get('http://localhost:3002/whoami')
-  .then(res=>setUserInfo(res.data))
-  .catch(error=>console.log(error))
-
-
-  }, []);
-  
-
-//console.log(userInfo);
-  
   const [passwordVisibility, setPasswordVisibility] = useState(true);
   const [iconEye, setIconEye] = useState("eye");
-  const dispatch = useDispatch()
+  
   const handlePasswordVisibility = () => {
     if (iconEye === "eye") {
       setIconEye("eye-off");
@@ -73,31 +56,21 @@ const LogIn = () => {
     },
     validate,
     onSubmit: (values) => {
-      if(values.username === userInfo.username && values.password === userInfo.password){
-       
-        dispatch(login(true))
-        navigate(PATHS.DASHBOARD)
+     setTimeout(()=>{
+      axios
+        .post("http://localhost:3002/auth/login",values)
+         .then((res) =>{ 
+           localStorage.setItem(ACCESS_TOKEN,res.data.token)
+           localStorage.setItem(IS_LOGGED_IN,"true")
+           if(res.status == 200){
+            navigate("/Dashboard",{replace:true})
+           }
+          })
+          .catch(()=> alert("با این نام کاربری کاربری ثبت نشده"))
+        }, 1000)
       }
-  
-  
-      // try{
-      //   const  {data}= await loginUser(values)
-      //   console.log({data});
-      //  navigate(PATHS.DASHBOARD)
-        
-      // }
-      // catch(e){
-      //   alert("با این نام کاربری کاربری ثبت نشده")
-      // }
-      // if(values.username == userInfo.username && values.password == userInfo.password){
-      //   IS_LOGGED_IN ="true"
-      //   //Dispatch(login(true))
-      //   navigate(PATHS.DASHBOARD ,{replace : true} )}
-      
-    },
-   });
-
-  return (
+      });
+    return (
     <div>
       <div className="feild">
         <form className="formHolder" onSubmit={formik.handleSubmit}>
@@ -214,3 +187,17 @@ export {LogIn};
 //   );
 // }
 
+// try{
+      //   const  {data}= await loginUser(values)
+      //   console.log({data});
+      //  navigate(PATHS.DASHBOARD)
+        
+      // }
+      // catch(e){
+      //   alert("با این نام کاربری کاربری ثبت نشده")
+      // }
+      // if(values.username == userInfo.username && values.password == userInfo.password){
+      //   IS_LOGGED_IN ="true"
+      //   //Dispatch(login(true))
+      //   navigate(PATHS.DASHBOARD ,{replace : true} )}
+      
