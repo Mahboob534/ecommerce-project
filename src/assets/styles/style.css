@@ -1,0 +1,170 @@
+html, body {
+  margin: 0 !important;
+  padding: 0 !important;
+  font-size: 1rem;
+  font-family: "IRANSANS";
+  overflow: hidden !important;
+}
+
+.header {
+  background-color: #ded6f3;
+  height: 15vh;
+}
+
+form {
+  font-family: "IRANSANS";
+  margin-right: 25%;
+  margin-top: 10%;
+  background-color: #15172b;
+  border-radius: 20px;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  padding: 20px;
+  width: 50vw;
+}
+
+.title {
+  color: #eee;
+  font-size: 36px;
+  font-weight: 600;
+  margin-top: 30px;
+  margin-bottom: 10px;
+  font-family: "IRANSANS";
+}
+
+.field {
+  min-height: 50px;
+  position: relative;
+  width: 100%;
+  margin-top: 30px;
+}
+
+select, input {
+  background-color: #303245;
+  border-radius: 12px;
+  border: 0;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  color: #eee;
+  font-size: 18px;
+  height: 50px;
+  outline: 0;
+  padding: 4px 20px 0;
+  width: 100%;
+}
+
+label::before {
+  content: "";
+  background-color: #15172b;
+  border-radius: 10px;
+  height: 20px;
+  left: -10px;
+  right: -10px;
+  position: absolute;
+  top: -40px;
+  z-index: -1;
+  -webkit-transform: translateY(0px);
+          transform: translateY(0px);
+  -webkit-transition: -webkit-transform 200ms;
+  transition: -webkit-transform 200ms;
+  transition: transform 200ms;
+  transition: transform 200ms, -webkit-transform 200ms;
+}
+
+input:focus ~ label::before,
+input:not(:placeholder-shown) ~ label::before {
+  -webkit-transform: translateY(40px);
+          transform: translateY(40px);
+}
+
+label {
+  color: #65657b;
+  font-family: "IRANSANS";
+  font-size: 1.5rem;
+  right: 20px;
+  line-height: 14px;
+  pointer-events: none;
+  position: absolute;
+  -webkit-transform-origin: 0 50%;
+          transform-origin: 0 50%;
+  -webkit-transition: color 200ms, -webkit-transform 200ms;
+  transition: color 200ms, -webkit-transform 200ms;
+  transition: transform 200ms, color 200ms;
+  transition: transform 200ms, color 200ms, -webkit-transform 200ms;
+  top: 20px;
+  z-index: 2;
+}
+
+input:focus ~ label,
+input:not(:placeholder-shown) ~ label {
+  -webkit-transform: translateY(-30px) translateX(10px) scale(0.75);
+          transform: translateY(-30px) translateX(10px) scale(0.75);
+}
+
+input:not(:placeholder-shown) ~ label {
+  color: #808097;
+}
+
+input:focus ~ label {
+  color: #ececec;
+}
+
+.error {
+  color: #dc2f55;
+  font-size: 12px;
+  padding-left: 10px;
+  margin: 4px 0 6px 0;
+}
+
+button {
+  background-color: #049f2d;
+  border-radius: 5px;
+  border: 0;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  color: #eee;
+  cursor: pointer;
+  font-size: 18px;
+  height: 50px;
+  margin-right: 30% !important;
+  margin-top: 4% !important;
+  outline: none;
+  text-align: center;
+  width: 40%;
+}
+
+button:active {
+  background-color: #06b;
+}
+
+button:disabled {
+  background-color: #16456c;
+  cursor: not-allowed;
+}
+
+.containerTab {
+  background: #212529;
+  display: block;
+  width: 50vw;
+  height: 100vh;
+  padding: 30;
+  margin-right: 35%;
+}
+
+.span {
+  color: #65657b;
+  font-family: "IRANSANS";
+  font-size: 1.5rem;
+  left: 20px;
+  line-height: 14px;
+  position: absolute;
+  -webkit-transform-origin: 0 50%;
+          transform-origin: 0 50%;
+  -webkit-transition: color 200ms, -webkit-transform 200ms;
+  transition: color 200ms, -webkit-transform 200ms;
+  transition: transform 200ms, color 200ms;
+  transition: transform 200ms, color 200ms, -webkit-transform 200ms;
+  top: 20px;
+  z-index: 2;
+}
+/*# sourceMappingURL=style.css.map */
