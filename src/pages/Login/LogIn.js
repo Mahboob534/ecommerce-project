@@ -1,42 +1,37 @@
-import React, { useState, useEffect } from "react";
-// import { Formik } from "formik";
+import React, { useState } from "react";
+
+import Styles from './login.module.css';
+
+
 import { useFormik } from "formik";
 import axios from "axios";
-import style from "../../assets/styles/style.css";
-
-import { Link,useNavigate } from "react-router-dom";
-import { PATHS } from "../../config/routes.config";
-import {loginUser} from '../../services/LoginService'
-
-//import * as api from '../../api/api.api'
-
-// import Input from "../../componentes/Input/Input";
-// import Label from "../../componentes/Label/Label";
-// import Button from "../../componentes/Button/Button"
-
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { setlogin } from "../../redux/action/AdminSlice";
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 
-import {BASE_URL, ACCESS_TOKEN, IS_LOGGED_IN } from "../../config/variable.config";
-import { useDispatch } from "react-redux";
-import {login} from '../../redux/action/AdminSlice'
+import { IS_LOGGED_IN,ACCESS_TOKEN } from "../../config/variable.config";
+import LOGIN from "../../config/url.config";
+import { PATHS } from "../../config/routes.config";
+import {ApiAdmin} from '../../api/api'
+
 
 const validate = (values) => {
-  const errors ={};
-  if (!values.name) {
-    errors.name = "فیلد نام کاربری را نمی تواند خالی باشد";
-  } 
+  const errors = {};
+  if (!values.username) {
+    errors.username = "فیلد نام کاربری را نمی تواند خالی باشد";
+  }
   if (!values.password) {
-    errors.password = "پسورد نمی تواند خالی باشد" ;
+    errors.password = "پسورد نمی تواند خالی باشد";
   }
 
   return errors;
-}
+};
 
 const LogIn = () => {
- 
   const [passwordVisibility, setPasswordVisibility] = useState(true);
   const [iconEye, setIconEye] = useState("eye");
-  
+  const dispatch = useDispatch();
   const handlePasswordVisibility = () => {
     if (iconEye === "eye") {
       setIconEye("eye-off");
@@ -46,55 +41,68 @@ const LogIn = () => {
       setPasswordVisibility(!passwordVisibility);
     }
   };
-  const navigate = useNavigate()
 
- 
+  const navigate = useNavigate();
+  const onSubmit =async (data) => {
+    localStorage.removeItem(ACCESS_TOKEN)
+    let response = await ApiAdmin.login(data)
+    localStorage.setItem(ACCESS_TOKEN, response.data.token)
+    dispatch(setlogin(true))
+    console.log(response.data.token);
+    navigate(PATHS.DASHBOARD)
+  }
+
   const formik = useFormik({
     initialValues: {
-     username: "",
+      username: "",
       password: "",
     },
     validate,
-    onSubmit: (values) => {
-     setTimeout(()=>{
-      axios
-        .post("http://localhost:3002/auth/login",values)
-         .then((res) =>{ 
-           localStorage.setItem(ACCESS_TOKEN,res.data.token)
-           localStorage.setItem(IS_LOGGED_IN,"true")
-           if(res.status == 200){
-            navigate("/Dashboard",{replace:true})
-           }
-          })
-          .catch(()=> alert("با این نام کاربری کاربری ثبت نشده"))
-        }, 1000)
-      }
-      });
-    return (
+    onSubmit
+
+  //axios
+      //   .post('http://localhost:3002/auth/login',values)
+      //   .then((res) => {
+      //     if (res.status == 200) {
+      //      dispatch(setlogin(true))
+      //      localStorage.setItem(ACCESS_TOKEN,res.data.token)
+      //       navigate('/Dashboard',{replace:false})
+      //     }
+      //   })
+      //   .catch(() => {
+      //     alert("با این نام کاربری کاربری ثبت نشده");
+      //   });
+
+      
+    
+  });
+  return (
     <div>
-      <div className="feild">
-        <form className="formHolder" onSubmit={formik.handleSubmit}>
-          <div className="field">
+      <div className={Styles.field}>
+        <form className={Styles.formHolder} onSubmit={formik.handleSubmit}>
+          <div className={Styles.field}>
             <input
+            className={Styles.inputlogin}
               name="username"
               type="text"
               onChange={formik.handleChange}
               value={formik.values.username}
             />
-            <label htmlFor="name">*نام کاربری </label>
+            <label className={Styles.labelLogin} htmlFor="name">*نام کاربری </label>
             {formik.touched.username && formik.errors.username ? (
-              <p className="error">{formik.errors.username}</p>
+              <p className={Styles.error}>{formik.errors.username}</p>
             ) : null}
           </div>
-          <div className="field">
+          <div className={Styles.field}>
             <input
+             className={Styles.inputlogin}
               name="password"
               type={passwordVisibility ? "password" : "text"}
               onChange={formik.handleChange}
               value={formik.values.password}
             />
-            <label htmlFor="password">پسورد*</label>
-            <span className="span">
+            <label className={Styles.labelLogin} htmlFor="password">پسورد*</label>
+            <span className={Styles.span}>
               {iconEye == "eye" ? (
                 <FaRegEye
                   icon={["fa", "FaRegEye"]}
@@ -109,95 +117,19 @@ const LogIn = () => {
             </span>
 
             {formik.touched.password && formik.errors.password ? (
-              <p className="error">{formik.errors.password}</p>
+              <p className={Styles.error}>{formik.errors.password}</p>
             ) : null}
           </div>
-          <button type="submit">ورود</button>
+          <button  type="submit"  className={Styles.button}>ورود</button>
           <Link
-            style={{
-              marginRight:'1%',
-              textDecoration: "none",
-             
-              width: "100px",
-              textAlign: "center",
-              height: "40px",
-              paddingTop: "6px",
-              marginBottom: "6px",
-              borderRadius: "6px",
-              color: "white",
-            }}
+           className={Styles.backLink}
             to={PATHS.HOME}
           >
-          
             بازگشت به صفحه اصلی
           </Link>
         </form>
       </div>
     </div>
   );
-}
-export {LogIn};
-
-// function LogIn() {
-//   return (
-//     <Formik
-//       initialValues={{ email: "",password:"" }}
-//       onSubmit={(values, actions) => {
-//         setTimeout(() => {
-//           alert(JSON.stringify(values, null, 2));
-//           actions.setSubmitting(false);
-//         }, 1000);
-//       }}
-//     >
-//       {(props) => (
-//         <div className="field">
-//         <form  className="formHolder" onSubmit={props.handleSubmit}>
-//           <div className="field">
-//             <Input
-//               name={"email"}
-//               type={"email"}
-//               onChange={props.handleChange}
-//               onBlur={props.handleBlur}
-//               value={props.values.email}
-//             />
-//             <Label forLabel={"email"} title={"پست الکترونیک"} />
-//             {props.errors.email && (
-//               <div className="error" id="feedback">{props.errors.email}</div>
-//             )}
-//             </div>
-//             <div className="field">
-//             <Input
-//               name={"password"}
-//               type={"password"}
-//               onChange={props.handleChange}
-//               onBlur={props.handleBlur}
-//               value={props.values.password}
-//             />
-//             <Label forLabel={"password"} title={"کلمه عبور "} />
-//             {props.errors.email && (
-//               <div className="error" id="feedback">{props.errors.password}</div>
-//             )}
-//             </div>
-//             <Button title={"ورود"} />
-
-//         </form>
-//         </div>
-//       )}
-//     </Formik>
-//   );
-// }
-
-// try{
-      //   const  {data}= await loginUser(values)
-      //   console.log({data});
-      //  navigate(PATHS.DASHBOARD)
-        
-      // }
-      // catch(e){
-      //   alert("با این نام کاربری کاربری ثبت نشده")
-      // }
-      // if(values.username == userInfo.username && values.password == userInfo.password){
-      //   IS_LOGGED_IN ="true"
-      //   //Dispatch(login(true))
-      //   navigate(PATHS.DASHBOARD ,{replace : true} )}
-      
+};
+export { LogIn };

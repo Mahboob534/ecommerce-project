@@ -1,0 +1,150 @@
+.formHolder {
+  margin :15% 30%;
+  background-color: #15172b;
+  border-radius: 20px;
+  box-sizing: border-box;
+  padding: 20px;
+  height: 40vh;
+  width: 30vw;
+}
+
+.title {
+  color: #eee;
+  font-family: sans-serif;
+  font-size: 36px;
+  font-weight: 600;
+  margin-top: 30px;
+  margin-bottom: 10px;
+}
+
+.field {
+  min-height: 50px;
+  position: relative;
+  width: 100%;
+  margin-top: 30px;
+}
+
+.inputlogin {
+  background-color: #303245;
+  border-radius: 12px;
+  border: 0;
+  box-sizing: border-box;
+  color: #eee;
+  font-size: 18px;
+  height: 50px;
+  outline: 0;
+  padding: 4px 20px 0;
+  width: 100%;
+}
+.labeLogin::before {
+  content: "";
+  background-color: #15172b;
+  border-radius: 10px;
+  height: 20px;
+  left: -10px;
+  right: -10px;
+  position: absolute;
+  top: -40px;
+  z-index: -1;
+  transform: translateY(0px);
+  transition: transform 200ms;
+}
+
+.inputlogin:focus~label::before,
+input:not(:placeholder-shown)~label::before {
+  transform: translateY(40px);
+}
+
+.labelLogin {
+  color: #65657b;
+  font-family: sans-serif;
+  font-size: 1.5rem;
+  right: 20px;
+  line-height: 14px;
+  pointer-events: none;
+  position: absolute;
+  transform-origin: 0 50%;
+  transition: transform 200ms, color 200ms;
+  top: 20px;
+  z-index: 2;
+}
+
+.inputlogin:focus~label,
+input:not(:placeholder-shown)~label {
+  transform: translateY(-30px) translateX(10px) scale(0.75);
+}
+
+.inputlogin:not(:placeholder-shown)~label {
+  color: #808097;
+}
+
+.inputlogin:focus~label {
+  color: #ececec;
+}
+
+.error {
+  color: #dc2f55;
+  font-size: 12px;
+  padding-left: 10px;
+  margin: 4px 0 6px 0;
+}
+
+.button {
+  background-color: rgb(4, 159, 45);
+  border-radius:5px;
+  border: 0;
+  box-sizing: border-box;
+  color: #eee;
+  cursor: pointer;
+  font-size: 18px;
+  height: 50px;
+  margin-right: 30% !important;
+  margin-top:4% !important;
+  outline: none;
+  text-align: center;
+  width: 20%;
+}
+
+button:active {
+  background-color: #06b;
+}
+
+button:disabled {
+  background-color: rgb(22, 69, 108);
+  cursor: not-allowed;
+}
+.containerTab{
+  background: #212529;
+        display: block;
+        width: 50vw;
+        height:100vh;
+        padding: 30;
+        margin-right: 35%;
+}
+
+
+.span{
+  color: #65657b;
+  font-family: sans-serif;
+  font-size: 1.5rem;
+  left: 20px;
+  line-height: 14px;
+  position: absolute;
+  transform-origin: 0 50%;
+  transition: transform 200ms, color 200ms;
+  top: 20px;
+  z-index: 2;
+}
+.backLink{
+  margin-right:3%;
+  text-decoration:none;
+     width:100px; 
+     text-align:center; 
+    height:40px;
+    padding-top:6px;
+    margin-bottom:6px;
+     border-radius:6px;
+     color:white;
+     height:100px;
+
+}
