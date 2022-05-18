@@ -18,6 +18,7 @@ import LastPageIcon from '@mui/icons-material/LastPage';
 import Button from '@mui/material/Button';
 import { FiEdit2 } from "react-icons/fi";  
 import { RiDeleteBin5Fill } from "react-icons/ri";  
+import Styles  from "./tabel.module.css";
 function TablePaginationActions(props) {
   const theme = useTheme();
   const { count, page, rowsPerPage, onPageChange } = props;
@@ -104,6 +105,12 @@ export default function CustomPaginationActionsTable(props) {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
+  function Handledelete(id){
+   console.log(id.target.value);
+      // const request = axios.delete('http://localhost:3002/products/')
+      // return request.then(response =>response.data)
+      
+  }
 
   return (
     <TableContainer component={Paper}  sx={{direction:'rtl',mr:30,width:"60vw",height:"60vh"}} >
@@ -129,17 +136,17 @@ export default function CustomPaginationActionsTable(props) {
           ).map((row) => (
             <TableRow key={row.name}>
               <TableCell style={{ width: 70 }} align="right">
-              <img src={`http://localhost:3002/files/${row.thumbnail}`} style={{width:"70px",height:"70px"}}/> 
+              <img src={`http://localhost:3002/files/${row.thumbnail}`} className={Styles.imagethumline}/> 
               </TableCell>
               <TableCell style={{ width: 70 }} component="th" scope="row" align="right">
-                {row.name}
+                {row.name }
               </TableCell>
               <TableCell style={{ width: 70 }} align="right">
                 {rowCat.find(itemCat=> itemCat.id==row.category).name}
               </TableCell>
               <TableCell style={{ width: 40 }} align="right">
               <Button sx={{ml:1}}> <FiEdit2/></Button>
-              <Button sx={{mr:1}}><RiDeleteBin5Fill/> </Button>
+              <Button sx={{mr:1}} value={row.id} onClick={(e)=>console.log(e.target.value)}><RiDeleteBin5Fill/> </Button>
               </TableCell>
             </TableRow>
           ))}
