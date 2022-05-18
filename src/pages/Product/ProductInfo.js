@@ -26,7 +26,7 @@ export default function ProductInfo() {
   }
  // console.log(rowCat);
   return (
-    <Grid container spacing={2} sx={{ m: 5 }}>
+    <Grid container >
       <Grid item xs={6} md={4} sx={{ mr: 25 }}>
         <h1>مدیریت کالاها</h1>
       </Grid>
@@ -34,7 +34,7 @@ export default function ProductInfo() {
         <ModalProduct hand />
       </Grid>
       <Grid item xs={12} md={8}>
-        <Table row={row} rowCat={rowCat} />
+        <Table row={row} rowCat={rowCat} setRow={setRow} setRowCat={setRowCat} />
       </Grid>
     </Grid>
   );

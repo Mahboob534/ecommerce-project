@@ -1,4 +1,4 @@
-import * as React from 'react';
+import  React,{useState,useEffect} from 'react';
 import PropTypes from 'prop-types';
 import { useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
@@ -19,6 +19,7 @@ import Button from '@mui/material/Button';
 import { FiEdit2 } from "react-icons/fi";  
 import { RiDeleteBin5Fill } from "react-icons/ri";  
 import Styles  from "./tabel.module.css";
+import axios from 'axios';
 function TablePaginationActions(props) {
   const theme = useTheme();
   const { count, page, rowsPerPage, onPageChange } = props;
@@ -89,6 +90,11 @@ function TablePaginationActions(props) {
 export default function CustomPaginationActionsTable(props) {
   let rows= props.row
   let rowCat=props.rowCat
+  let setRow=props.setRow
+  let setRowCat=props.setRowCat
+// useEffect(()=>{
+//   Handledelete(id)
+// }[id])
 
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
@@ -105,15 +111,21 @@ export default function CustomPaginationActionsTable(props) {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
-  function Handledelete(id){
-   console.log(id.target.value);
-      // const request = axios.delete('http://localhost:3002/products/')
-      // return request.then(response =>response.data)
-      
+ async function Handledelete(id) {
+   try{
+    await axios.delete(`http://localhost:3002/products/${id}`)
+    const products = await axios.get("http://localhost:3002/products");
+      const category = await axios.get("http://localhost:3002/category");
+     setRow(products.data);
+      setRowCat(category.data);
+   } 
+  catch(error){
+       console.log(error);
   }
+}
 
   return (
-    <TableContainer component={Paper}  sx={{direction:'rtl',mr:30,width:"60vw",height:"60vh"}} >
+    <TableContainer component={Paper}  sx={{direction:'rtl',mr:20,width:"60vw",height:"60vh"}} >
       <Table  aria-label="custom pagination table">
         <TableBody sx={{direction:'rtl' }}>
         <TableRow key={1}>
@@ -135,24 +147,24 @@ export default function CustomPaginationActionsTable(props) {
             : rows
           ).map((row) => (
             <TableRow key={row.name}>
-              <TableCell style={{ width: 70 }} align="right">
+              <TableCell style={{ width: 40 }} align="right">
               <img src={`http://localhost:3002/files/${row.thumbnail}`} className={Styles.imagethumline}/> 
               </TableCell>
-              <TableCell style={{ width: 70 }} component="th" scope="row" align="right">
+              <TableCell style={{ width: 40 }} component="th" scope="row" align="right">
                 {row.name }
               </TableCell>
-              <TableCell style={{ width: 70 }} align="right">
+              <TableCell style={{ width: 40 }} align="right">
                 {rowCat.find(itemCat=> itemCat.id==row.category).name}
               </TableCell>
               <TableCell style={{ width: 40 }} align="right">
               <Button sx={{ml:1}}> <FiEdit2/></Button>
-              <Button sx={{mr:1}} value={row.id} onClick={(e)=>console.log(e.target.value)}><RiDeleteBin5Fill/> </Button>
+              <Button sx={{mr:1}}  onClick={()=>Handledelete(row.id)}><RiDeleteBin5Fill/> </Button>
               </TableCell>
             </TableRow>
           ))}
 
           {emptyRows > 0 && (
-            <TableRow style={{ height: 53 * emptyRows }}>
+            <TableRow style={{ height: 45 * emptyRows }}>
               <TableCell colSpan={6} />
             </TableRow>
           )}
