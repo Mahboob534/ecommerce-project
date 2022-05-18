@@ -2,17 +2,17 @@ import { createSlice } from '@reduxjs/toolkit'
 
 export const adminSlice = createSlice({
   name: 'admin',
-  initialState: {
-    isLogin : false,
-  },
+  initialState: 
+     false,
+  
   reducers: {
-    login: (state,action) => {
-      state.isLogin=action.payload
+    setlogin: (state,action) => {
+      return action.payload
     },
   },
 })
 
-// Action creators are generated for each case reducer function
-export const { login } = adminSlice.actions
+
+export const { setlogin } = adminSlice.actions
 
 export default adminSlice.reducer
