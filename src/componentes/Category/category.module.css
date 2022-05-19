@@ -1,0 +1,9 @@
+.linkCat{
+    text-align: right !important;
+    display: block !important;
+    text-decoration: none;
+    color:black;
+}
+.linkCat:hover{
+color:brown
+}
