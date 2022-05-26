@@ -3,40 +3,27 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
-import axios from 'axios'
-import { FiEdit2 } from "react-icons/fi";
-  
-import FormEdit from "../../componentes/From/FormEdit"
+import Form from "../../componentes/From/Form"
 const style = {
   position: 'absolute',
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
-  width: '60%',
+  width: 400,
   bgcolor: 'background.paper',
   border: '2px solid #000',
   boxShadow: 24,
   p: 4,
 };
 
-export default function ModalEdit( props) {
-    let id=props.id
+export default function ModalOrder() {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-  const [product,setProduct]= React.useState([])
 
-React.useEffect(()=>{
-    getProduct(id)
-},[id])
-  async function getProduct(id){
-    const response = await axios.get(`http://localhost:3002/products?id=${id}`)
-    setProduct(response.data)
-  }
-  //console.log(product);
   return (
     <div>
-      <Button onClick={handleOpen}> <FiEdit2/> </Button>
+      <Button sx={{backgroundColor:"#86efac", width:'100px', m:3 }} variant="outlined" onClick={handleOpen}> افزودن کالا</Button>
       <Modal
         open={open}
         onClose={handleClose}
@@ -47,7 +34,7 @@ React.useEffect(()=>{
           <Typography id="modal-modal-title" variant="h4" component="h2">
           ویرایش و افزودن کالا
           
-           <FormEdit data={product[0]}/> 
+          <Form/>
           </Typography>
          
         </Box>
