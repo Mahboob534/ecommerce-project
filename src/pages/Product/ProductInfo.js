@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Grid } from "@mui/material";
-import ModalProduct from "../../componentes/Modal/ModalProduct";
-import { useSelector } from "react-redux";
-import axios from "axios";
+import ModalProduct from "../../componentes/Modal/ModalProduct"
+import gatAllProduct  from '../../api/getAll/getAllproduct'
+import getAllCategory from '../../api/getAll/getAllCategory'
 import Table from "./components/Tabel/Table";
 
 export default function ProductInfo() {
@@ -10,14 +10,12 @@ export default function ProductInfo() {
   const [rowCat, setRowCat] = useState([]);
 
   useEffect(() => {
-    // axios.get("http://localhost:3002/products").then((res) => setRow(res.data));
-    // axios.get("http://localhost:3002/category").then((res)=> setRowCat(res.data) )
     getData();
   }, []);
   async function getData() {
     try {
-      const products = await axios.get("http://localhost:3002/products");
-      const category = await axios.get("http://localhost:3002/category");
+      const products = await gatAllProduct();
+      const category = await getAllCategory() ;
      setRow(products.data);
       setRowCat(category.data);
     } catch (error) {

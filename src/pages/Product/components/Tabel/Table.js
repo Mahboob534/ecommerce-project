@@ -1,25 +1,27 @@
-import  React,{useState,useEffect} from 'react';
-import PropTypes from 'prop-types';
-import { useTheme } from '@mui/material/styles';
-import Box from '@mui/material/Box';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableFooter from '@mui/material/TableFooter';
-import TablePagination from '@mui/material/TablePagination';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
-import IconButton from '@mui/material/IconButton';
-import FirstPageIcon from '@mui/icons-material/FirstPage';
-import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
-import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
-import LastPageIcon from '@mui/icons-material/LastPage';
-import Button from '@mui/material/Button';
-import { RiDeleteBin5Fill } from "react-icons/ri";  
-import Styles  from "./tabel.module.css";
-import axios from 'axios';
-import ModalEdit from "../../../../componentes/Modal/ModalEdit"
+import React, { useState, useEffect } from "react";
+import PropTypes from "prop-types";
+import { useTheme } from "@mui/material/styles";
+import Box from "@mui/material/Box";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableFooter from "@mui/material/TableFooter";
+import TablePagination from "@mui/material/TablePagination";
+import TableRow from "@mui/material/TableRow";
+import Paper from "@mui/material/Paper";
+import IconButton from "@mui/material/IconButton";
+import FirstPageIcon from "@mui/icons-material/FirstPage";
+import KeyboardArrowLeft from "@mui/icons-material/KeyboardArrowLeft";
+import KeyboardArrowRight from "@mui/icons-material/KeyboardArrowRight";
+import LastPageIcon from "@mui/icons-material/LastPage";
+import Button from "@mui/material/Button";
+import { RiDeleteBin5Fill } from "react-icons/ri";
+import Styles from "./tabel.module.css";
+import swal from "sweetalert";
+import ModalEdit from "../../../../componentes/Modal/ModalEdit";
+import deleteProduct from '../../../../api/getAll/deleteProduct';
+
 function TablePaginationActions(props) {
   const theme = useTheme();
   const { count, page, rowsPerPage, onPageChange } = props;
@@ -88,11 +90,10 @@ function TablePaginationActions(props) {
 // }
 
 export default function CustomPaginationActionsTable(props) {
-  let rows= props.row
-  let rowCat=props.rowCat
-  let setRow=props.setRow
-  let setRowCat=props.setRowCat
-
+  let rows = props.row;
+  let rowCat = props.rowCat;
+  let setRow = props.setRow;
+  let setRowCat = props.setRowCat;
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   
@@ -109,80 +110,110 @@ export default function CustomPaginationActionsTable(props) {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
- async function Handledelete(id) {
-   try{
-    await axios.delete(`http://localhost:3002/products/${id}`)
-    const products = await axios.get("http://localhost:3002/products");
-      const category = await axios.get("http://localhost:3002/category");
-     setRow(products.data);
-      setRowCat(category.data);
-   } 
-  catch(error){
-       console.log(error);
-  }
-}
-
+  
+  
 
   return (
-    <TableContainer component={Paper}  sx={{direction:'rtl',mr:20,width:"60vw",height:"60vh"}} >
-      <Table  aria-label="custom pagination table">
-        <TableBody sx={{direction:'rtl' }}>
-        <TableRow key={1}>
-        <TableCell style={{ width: 40 }} align="right">
-                   تصویر
-              </TableCell>
-              <TableCell style={{ width: 40 }} component="th" scope="row" align="right">
+    <TableContainer
+      component={Paper}
+      sx={{ direction: "rtl", mr: 20, width: "60vw", height: "60vh",fontFamily:"IRANSansBold" }}
+      
+    >
+      <Table aria-label="custom pagination table">
+        <TableBody sx={{ direction: "rtl" }}>
+          <TableRow key={1}>
+            <TableCell style={{ width: 40 }} align="right">
+              تصویر
+            </TableCell>
+            <TableCell
+              style={{ width: 40 }}
+              component="th"
+              scope="row"
+              align="right"
+            >
               نام کالا
-              </TableCell>
-              <TableCell style={{ width: 40 }} align="right">
+            </TableCell>
+            <TableCell style={{ width: 40 }} align="right">
               دسته بندی
-                            </TableCell>
-              <TableCell style={{ width: 40 }} align="right">
-              
-              </TableCell>
-            </TableRow>
+            </TableCell>
+            <TableCell style={{ width: 40 }} align="right"></TableCell>
+          </TableRow>
           {(rowsPerPage > 0
             ? rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
             : rows
           ).map((row) => (
             <TableRow key={row.name}>
               <TableCell style={{ width: 40 }} align="right">
-              <img src={`http://localhost:3002/files/${row.thumbnail}`} className={Styles.imagethumline}/> 
+                <img
+                  src={`http://localhost:3002/files/${row.thumbnail}`}
+                  className={Styles.imagethumline}
+                />
               </TableCell>
-              <TableCell style={{ width: 40 }} component="th" scope="row" align="right">
-                {row.name }
+              <TableCell
+                style={{ width: 40 }}
+                component="th"
+                scope="row"
+                align="right"
+              >
+                {row.name}
               </TableCell>
               <TableCell style={{ width: 40 }} align="right">
-                {rowCat.find(itemCat=> itemCat.id==row.category).name}
+                {rowCat.find((itemCat) => itemCat.id == row.category).name}
               </TableCell>
               <TableCell style={{ width: 40 }} align="right">
-              <Button sx={{ml:1}} > <ModalEdit id={row.id}/> </Button>
-               <Button sx={{mr:1}}  onClick={()=>Handledelete(row.id)}><RiDeleteBin5Fill/> </Button> 
+                <Button sx={{ ml: 1 }}>
+                  {" "}
+                  <ModalEdit id={row.id} />{" "}
+                </Button>
+                <Button sx={{ mr: 1 }} onClick={(e)=>{
+                  e.preventDefault()
+                  swal({
+                    title:  `آیا از حذف محصول ${row.name}  اطمینان دارید؟`,
+                    text: "توجه داشته باشید که حذف این محصول به طور کامل از سیستم حذف خواهد شد.",
+                    icon: "warning",
+                    buttons:["خیر", "بله"],
+                    dangerMode: true,
+                  })
+                  .then(async(willDelete) => {
+                    if (willDelete) {
+                      const productId = row.id;
+                      deleteProduct(productId)
+      
+                    await swal("محصول با موفقیت حذف شد", {
+                        icon: "success",
+                      });
+                    } else {
+                   await   swal("محصول حذف نشد");
+                    }
+                    window.location.reload(true);
+                  })
+                 } } >
+                  {" "}
+                  <RiDeleteBin5Fill />
+                </Button>
               </TableCell>
             </TableRow>
           ))}
 
-          {emptyRows > 0 && (
+{emptyRows > 0 && (
             <TableRow style={{ height: 45 * emptyRows }}>
               <TableCell colSpan={6} />
             </TableRow>
           )}
         </TableBody>
-        <TableFooter >
+        <TableFooter>
           <TableRow>
             <TablePagination
-              rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
-              
+              rowsPerPageOptions={[5, 10, 25, { label: "All", value: -1 }]}
               colSpan={3}
               count={rows.length}
               rowsPerPage={rowsPerPage}
               page={page}
               SelectProps={{
                 inputProps: {
-                  'aria-label': 'rows per page',
+                  "aria-label": "rows per page",
                 },
                 native: true,
-                
               }}
               onPageChange={handleChangePage}
               onRowsPerPageChange={handleChangeRowsPerPage}
