@@ -15,7 +15,12 @@ import FirstPageIcon from "@mui/icons-material/FirstPage";
 import KeyboardArrowLeft from "@mui/icons-material/KeyboardArrowLeft";
 import KeyboardArrowRight from "@mui/icons-material/KeyboardArrowRight";
 import LastPageIcon from "@mui/icons-material/LastPage";
-
+import EasyEdit, { Types } from "react-easy-edit";
+import { useDispatch } from "react-redux";
+import {setIndex} from '../../../redux/action/EditIndex'
+import { Grid,Button } from "@mui/material";
+import axios from 'axios'
+import swal from "sweetalert";
 function TablePaginationActions(props) {
   const theme = useTheme();
   const { count, page, rowsPerPage, onPageChange } = props;
@@ -37,9 +42,11 @@ function TablePaginationActions(props) {
   };
 
   return (
+    
     <Box
       sx={{ flexShrink: 0, display: "flex", justifyContent: "space-between" }}
     >
+     
       <IconButton
         onClick={handleFirstPageButtonClick}
         disabled={page === 0}
@@ -93,12 +100,20 @@ function TablePaginationActions(props) {
 
 export default function CustomPaginationActionsTable(props) {
   let rows = props.row;
- // let flag= props.flag
+  // let flag= props.flag
   //let setFlag=props.setFlag
-  const[flag,setFlag]=useState(true)
+  
+
+
+  const [flag, setFlag] = React.useState(true);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
-  
+  const [editMode, seteditMode] = React.useState(false);
+  let dispatch=useDispatch()
+let  changeArr=[]
+
+
+
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
@@ -111,12 +126,52 @@ export default function CustomPaginationActionsTable(props) {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
-
+ 
   return (
     <TableContainer
       component={Paper}
       sx={{ direction: "rtl", mr: 30, width: "60vw", height: "60vh" }}
     >
+      <Grid item xs={6} md={4}>
+  <Button sx={{backgroundColor:"#86efac", width:'100px', m:3 }} variant="outlined" 
+  onClick={()=>{
+    swal({
+      title:  ` ویرایش`,
+      text: "آیا تغییرات اعمال شود ",
+      icon: "warning",
+      buttons:["خیر", "بله"],
+      dangerMode: true,
+    })
+    .then(async(willDelete) => {
+      if (willDelete) {
+        changeArr.map((index)=>{
+          const updatePro= rows.find((item)=>item.id===index)
+            
+             axios.put(`http://localhost:3002/products/${index}`,updatePro).then(res => console.log(res.data))
+            
+         })
+       
+
+      await swal("تغییرات با موفقیت اعمال شد", {
+          icon: "success",
+          
+        });
+      } else {
+     await   swal("محصول تغییرات اعمال نشد");
+      }
+      window.location.reload(true);
+    })
+   
+
+
+   } 
+    
+  
+   
+  }
+  
+  > ذخیره</Button>
+  </Grid>
       <Table aria-label="custom pagination table">
         <TableBody sx={{ direction: "rtl" }}>
           <TableRow key={1}>
@@ -144,17 +199,43 @@ export default function CustomPaginationActionsTable(props) {
               <TableCell style={{ width: 40 }} align="right">
                 {row.name}
               </TableCell>
+
               <TableCell
                 style={{ width: 30 }}
-                component={flag ? "th" : "Input"}
+                component="th"
                 scope="row"
                 align="right"
-                onClick={() =>setFlag(false)}
+                name="price"
+              onChange={(e)=>{ row.price = e.target.value
+                console.log(row.price);
+              }} 
+                
               >
-                {row.price}
+                
+                <EasyEdit
+                value={String(row.price)}
+                   type={Types.TEXT}
+                  onSave={()=>changeArr.push(row.id)}
+                   
+                  
+                  editMode={editMode}
+                  
+                />  
               </TableCell>
-              <TableCell style={{ width: 30 }} align="right">
-                {row.count}
+              <TableCell style={{ width: 30 }} name="count" align="right" onChange={(e)=>row.count = e.target.value }  >
+                                                               
+              <EasyEdit
+                value={(row.count)}
+                   type={Types.TEXT}
+                   
+                  onSave={() => { changeArr.push(row.id)
+                    
+
+                  }}
+                  editMode={editMode}
+                  
+                />
+              
               </TableCell>
             </TableRow>
           ))}
@@ -164,6 +245,7 @@ export default function CustomPaginationActionsTable(props) {
               <TableCell colSpan={6} />
             </TableRow>
           )}
+          
         </TableBody>
         <TableFooter>
           <TableRow>
