@@ -1,0 +1,203 @@
+
+
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: IRANSans-web;
+    color: #000;
+     font-size:1rem; 
+    font-weight: normal;
+  }
+  
+ 
+  /* Cart */
+  .cartcontainer {
+    padding: 2rem 4rem;
+  }
+  .cartcontainer h2 {
+    font-weight: 400;
+    font-size: 30px;
+    text-align: center;
+  }
+  .cartcontainer .titles {
+    margin: 2rem 0 1rem 0;
+  }
+  .cartcontainer .titles h3 {
+    font-size: 14px;
+    font-weight: 400;
+    text-transform: uppercase;
+  }
+  .cartitem,
+  .cartcontainer .titles {
+    display: grid;
+    align-items: center;
+    grid-template-columns: 3fr 1fr 1fr 1fr;
+    column-gap: 0.5rem;
+  }
+  .cartitem {
+    border-top: 1px solid rgb(187, 187, 187);
+    padding: 1rem 0;
+  }
+  .cartcontainer .titles .producttitle {
+    padding-left: 0.5rem;
+  }
+  .cartcontainer .titles .total {
+    padding-right: 0.5rem;
+    justify-self: right;
+  }
+  .cartitem .cartproduct {
+    display: flex;
+  }
+  .cartitem .cartproduct img {
+    width: 100px;
+    max-width: 100%;
+    margin-right: 1rem;
+  }
+  .cartitem .cartproduct h3 {
+    font-weight: 400;
+  }
+  .cartitem .cartproduct button {
+    border: none;
+    outline: none;
+    margin-top: 0.7rem;
+    cursor: pointer;
+    background: none;
+    color: gray;
+  }
+  .cartitem .cartproduct button:hover {
+    color: black;
+  }
+  
+  .cartitem .cartproductquantity {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    width: 130px;
+    max-width: 100%;
+    border: 0.5px solid rgb(177, 177, 177);
+    border-radius: 5px;
+  }
+  .cartitem .cartproductquantity button {
+    border: none;
+    outline: none;
+    background: none;
+    padding: 0.7rem 1.5rem;
+    cursor: pointer;
+  }
+  .cartitem .cart-productquantity .count {
+    padding: 0.7rem 0;
+  }
+  .cartitem .cartproducttotalprice {
+    padding-right: 0.5rem;
+    justify-self: right;
+    font-weight: 700;
+  }
+  
+  /* cart summary */
+  .cartsummary {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    border-top: 1px solid rgb(187, 187, 187);
+    padding-top: 2rem;
+  }
+  .cartsummary .clearbtn {
+    width: 130px;
+    height: 40px;
+    border-radius: 5px;
+    font-weight: 400;
+    letter-spacing: 1.15px;
+    border: 0.5px solid rgb(177, 177, 177);
+    color: gray;
+    background: none;
+    outline: none;
+    cursor: pointer;
+  }
+  .cartcheckout {
+    width: 270px;
+    max-width: 100%;
+  }
+  .cartcheckout .subtotal {
+    display: flex;
+    justify-content: space-between;
+    font-size: 20px;
+  }
+  .cartcheckout .amount {
+    font-weight: 700;
+  }
+  .cart-checkout p {
+    font-size: 14px;
+    font-weight: 200;
+    margin: 0.5rem 0;
+  }
+  .cartcheckout button {
+    width: 100%;
+    height: 40px;
+    border-radius: 5px;
+    font-weight: 400;
+    letter-spacing: 1.15px;
+    background-color: #4b70e2;
+    color: #f9f9f9;
+    border: none;
+    outline: none;
+    cursor: pointer;
+  }
+  .continueshopping,
+  .startshopping {
+    margin-top: 1rem;
+  }
+  .continueshopping a,
+  .startshopping a {
+    color: gray;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+  }
+  .continueshopping a span,
+  .startshopping a span {
+    margin-left: 0.5rem;
+  }
+  .cartempty {
+    font-size: 20px;
+    margin-top: 2rem;
+    color: rgb(84, 84, 84);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  /* Responsive */
+  
+  @media (max-width: 665px) {
+    /* NavBar */
+    .nav-bar {
+      padding: 0 1rem;
+    }
+    .nav-bar h2 {
+      font-size: 30px;
+    }
+  
+    /* Cart */
+    .cartcontainer {
+      padding: 2rem;
+    }
+    .cartcontainer .titles {
+      display: none;
+    }
+    .cartitem,
+    .cartcontainer .titles {
+      grid-template-columns: 1fr;
+      row-gap: 1rem;
+    }
+    .cartitem .cartproducttotalprice {
+      justify-self: left;
+    }
+    .cartsummary {
+      flex-direction: column;
+    }
+    .cartsummary .clear-btn {
+      margin-bottom: 2rem;
+    }
+  }
+  
