@@ -17,7 +17,7 @@ import KeyboardArrowRight from "@mui/icons-material/KeyboardArrowRight";
 import LastPageIcon from "@mui/icons-material/LastPage";
 import EasyEdit, { Types } from "react-easy-edit";
 import { useDispatch } from "react-redux";
-import {setIndex} from '../../../redux/action/EditIndex'
+
 import { Grid,Button } from "@mui/material";
 import axios from 'axios'
 import swal from "sweetalert";
