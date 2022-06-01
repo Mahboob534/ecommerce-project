@@ -122,7 +122,7 @@ export default function CustomPaginationActionsTable(props) {
       <Table aria-label="custom pagination table">
         <TableBody sx={{ direction: "rtl" }}>
           <TableRow key={1}>
-            <TableCell style={{ width: 40 }} align="right">
+            <TableCell style={{ width: 40 }} align="right" sx={{fontFamily:" IRANSans-web",textAlign:'center'}}>
               تصویر
             </TableCell>
             <TableCell
@@ -130,20 +130,21 @@ export default function CustomPaginationActionsTable(props) {
               component="th"
               scope="row"
               align="right"
+              sx={{fontFamily:" IRANSans-web",textAlign:'center'}}
             >
               نام کالا
             </TableCell>
-            <TableCell style={{ width: 40 }} align="right">
+            <TableCell style={{ width: 40 }} align="right"sx={{fontFamily:" IRANSans-web",textAlign:'center'}}>
               دسته بندی
             </TableCell>
-            <TableCell style={{ width: 40 }} align="right"></TableCell>
+            <TableCell style={{ width: 40 }} align="right"sx={{fontFamily:" IRANSans-web",textAlign:'center'}}></TableCell>
           </TableRow>
           {(rowsPerPage > 0
             ? rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
             : rows
           ).map((row) => (
             <TableRow key={row.name}>
-              <TableCell style={{ width: 40 }} align="right">
+              <TableCell style={{ width: 40 }} align="right" sx={{fontFamily:" IRANSans-web",textAlign:'center'}}>
                 <img
                   src={`http://localhost:3002/files/${row.thumbnail}`}
                   className={Styles.imagethumline}
@@ -154,13 +155,14 @@ export default function CustomPaginationActionsTable(props) {
                 component="th"
                 scope="row"
                 align="right"
+                sx={{fontFamily:" IRANSans-web",textAlign:'center'}}
               >
                 {row.name}
               </TableCell>
-              <TableCell style={{ width: 40 }} align="right">
+              <TableCell style={{ width: 40 }} align="right" sx={{fontFamily:" IRANSans-web",textAlign:'center'}}>
                 {rowCat.find((itemCat) => itemCat.id == row.category).name}
               </TableCell>
-              <TableCell style={{ width: 40 }} align="right">
+              <TableCell style={{ width: 40 }} align="right" sx={{fontFamily:" IRANSans-web",textAlign:'center'}}>
                 <Button sx={{ ml: 1 }}>
                   {" "}
                   <ModalEdit id={row.id} />{" "}
