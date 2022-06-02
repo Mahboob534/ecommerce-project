@@ -21,10 +21,18 @@ const validationSchema = yup.object().shape({
 function Buy() {
   const { cartTotalAmount } = useSelector((state) => state.cart);
   const cart = useSelector((state) => state.cart.cartItems);
-  
+  const [product,setproduct]=useState()
   
   const [order, setOrder] = useState({orderItems:[]});
+  const productarr=[]
 const dispatch=useDispatch()
+async function productfun(){
+  cart.map((index)=>{
+  productarr.push({"id":index.id,"quantity":index.cartQuantity })
+  
+})
+   
+}
   const formik = useFormik({
     initialValues: {
       firstName: "",
@@ -35,61 +43,46 @@ const dispatch=useDispatch()
       dateDeliver: "",
     },
     validationSchema,
-    onSubmit: (values ,{resetForm}) => {
+    onSubmit: async (values ,{resetForm}) => {
+          await(productfun())
       if(cart.length > -1){
         setOrder({
           "username": "admin",
-          " orderStatus": "3",
+          "orderStatus": "3",
           firstName: values.firstName,
           lastName: values.lastName,
           phone: values.phone,
           billingAddress: values.billingAddress,
           shippingAddress: values.shippingAddress,
           "purchaseTotal": cartTotalAmount,
-          "delivery-date": new DateObject({
-            date: values.dateDeliver,
-            calendar: persian,
-          }).format("YYYY/MM/DD"),
-          orderDate: ( new DateObject({
-            date: values.dateDeliver,
-            calendar: persian,
-          }).format("YYYY/MM/DD")),
-  
-          "delivered-at": null,
-          orderItems: [
-            
-              cart.map((index)=>
-              `{"id": ${index.id}, "quantity": ${index.cartQuantity}}`
-              
-              
-              )
-              
-            
-          ]
-
+          delivery: values.dateDeliver ,
+          orderItems:productarr
         });
       }
       
       resetForm({values:''})
     },
   });
-
+  
   // function toTimestamp(strDate){
   //   var datum = Date.parse(strDate);
-  //   return datum/1000;
+  //   return datum;
   //  } 
- console.log(order.orderItems.length);
+//  console.log(order.orderItems.length);
+console.log(order);   
 useEffect(() => {
-  if(order.orderItems.length >0 ) {
+  if(order.orderItems.length > 0 ) {
+    localStorage.setItem("orders", JSON.stringify(order)); 
       dispatch(setOrders({
           ...order,
-         
+             
   }));
-      // window.location.open("http://localhost:5500/dargah.html");
+ 
+     window.location.replace("http://127.0.0.1:5500/public/payment.html");
   }
 }, [order])
 const orders = useSelector((state) => state.orders);
-console.log(orders);
+
   return (
     <LayoutUser>
       <form onSubmit={formik.handleSubmit}>
@@ -256,6 +249,7 @@ console.log(orders);
               locale={persian_fa}
               calendarPosition="bottom-right"
               weekPicker={false}
+              onChange={(e)=> formik.setFieldValue("dateDeliver", e.unix * 1000,true)}
               value={formik.values.dateDeliver}
               helperText={
                 formik.errors.dateDeliver &&
