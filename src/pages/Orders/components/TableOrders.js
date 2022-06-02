@@ -17,7 +17,7 @@ import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
 import LastPageIcon from '@mui/icons-material/LastPage';
 import Button from '@mui/material/Button';
 import {convertTimeStampToDate} from '../../../Utils/convetTime'
-
+import ModalOrder from '../../../componentes/Modal/ModaleOrder'
 function TablePaginationActions(props) {
   const theme = useTheme();
   const { count, page, rowsPerPage, onPageChange } = props;
@@ -87,7 +87,7 @@ function TablePaginationActions(props) {
 
 export default function CustomPaginationActionsTable(props) {
   let rows= props.row
-
+let handleChange=props.handleChange
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
@@ -109,17 +109,17 @@ export default function CustomPaginationActionsTable(props) {
       <Table  aria-label="custom pagination table">
         <TableBody sx={{direction:'rtl' }}>
         <TableRow key={1}>
-              <TableCell style={{ width: 40 }} align="right">
+              <TableCell style={{ width: 40 }} align="right" sx={{fontFamily:" IRANSans-web",textAlign:'center'}}>
           نام و نام خانوادگی
               </TableCell>
-              <TableCell style={{ width: 40 }} component="th" scope="row" align="right">
+              <TableCell style={{ width: 40 }} component="th" scope="row" align="right" sx={{fontFamily:" IRANSans-web",textAlign:'center'}}>
                 مجموع مبلغ
               </TableCell>
-              <TableCell style={{ width: 40 }} align="right">
+              <TableCell style={{ width: 40 }} align="right" sx={{fontFamily:" IRANSans-web",textAlign:'center'}}>
               تاریخ سفارش
               </TableCell>
-              <TableCell style={{ width: 40 }} align="right">
-              <Button>بررسی سفارشات</Button>
+              <TableCell style={{ width: 40 }} align="right" sx={{fontFamily:" IRANSans-web",textAlign:'center'}}>
+              <Button sx={{fontFamily:" IRANSans-web",textAlign:'center'}}>بررسی سفارشات</Button>
               </TableCell>
             </TableRow>
             
@@ -130,17 +130,17 @@ export default function CustomPaginationActionsTable(props) {
             
             rows).map((row) => (
             <TableRow key={row.name}>
-              <TableCell style={{ width: 40 }} align="right">
-              {`${row.customerDetail.firstName}${" "}${row.customerDetail.lastName} `}
+              <TableCell style={{ width: 40 }} align="right" sx={{fontFamily:" IRANSans-web",textAlign:'center'}}>
+              {`${row.firstName}${" "}${row.lastName} `}
               </TableCell>
-              <TableCell style={{ width: 40 }} component="th" scope="row" align="right">
+              <TableCell style={{ width: 40 }} component="th" scope="row" align="right" sx={{fontFamily:" IRANSans-web",textAlign:'center'}}>
                 {row.purchaseTotal}
               </TableCell>
-              <TableCell style={{ width: 40 }} align="right">
-                {convertTimeStampToDate(row.orderDate)}
+              <TableCell style={{ width: 40 }} align="right" sx={{fontFamily:" IRANSans-web",textAlign:'center'}}>
+                {convertTimeStampToDate(row.createdAt)}
               </TableCell>
-              <TableCell style={{ width: 40 }} align="right">
-              <Button>بررسی سفارشات</Button>
+              <TableCell style={{ width: 40 }} align="right" sx={{fontFamily:" IRANSans-web",textAlign:'center'}}>
+              <Button><ModalOrder data={row} handleChange={handleChange}/></Button> 
               </TableCell>
             </TableRow>
           ))}

@@ -7,10 +7,10 @@ import {
   Radio,
   RadioGroup,
   FormControlLabel,
-  FormLabel,
+  
 } from "@mui/material";
 import TableOrders from "./components/TableOrders";
-import axios from "axios";
+import  getOrderByStatus from '../../api/getAll/getOrderWithStatus'
 
 function Orders() {
   const [row, setRow] = useState([]);
@@ -21,20 +21,20 @@ function Orders() {
     setSelectedValue(event.target.value);
   };
 
-  // const getorders = async () => {
-  //   const res = await fetch(
-  //     `http://localhost:3002/orders?orderStatus=${selectedValue}`
-  //   );
-  //   const data = await res.json();
-  //   setRow(data);
-  // };
   useEffect(() => {
-    axios
-      .get(`http://localhost:3002/orders?orderStatus=${selectedValue}`)
-      .then((res) => setRow(res.data));
-  }, [selectedValue]);
+    getData(selectedValue)
+  }, [selectedValue])
 
-  console.log(row);
+  async function getData(selectedValue) {
+    try {
+      const orders = await getOrderByStatus(selectedValue);
+      setRow(orders.data) 
+    }
+     catch (error) {
+     alert("loading");
+    }
+  }
+//  console.log(row);
 
   return (
     <Grid container  >
@@ -51,20 +51,21 @@ function Orders() {
               value="1"
               control={<Radio />}
               label="سفارشات تحویل داده شده"
-              sx={{mr:10}}
+            sx={{mr:10 ,fontFamily:" IRANSans-web",textAlign:'center'}}
+
             />
             <FormControlLabel
               onChange={handleChange}
               value="3"
               control={<Radio />}
               label="سفارشات در حال تحویل "
-              sx={{mr:10}}
+              sx={{mr:10 ,fontFamily:" IRANSans-web",textAlign:'center'}}
             />
           </RadioGroup>
         </FormControl>
       </Grid>
       <Grid item xs={12} md={8}>
-        <TableOrders row={row} />
+        <TableOrders row={row} handleChange={handleChange}/>
       </Grid>
     </Grid>
   );
