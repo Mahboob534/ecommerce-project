@@ -1,0 +1,67 @@
+
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+    </head>
+    
+    <body>
+        <img src="./Capture.PNG" alt="">
+        <div class="buttons">
+            <button class="button cancel" onclick="cancel()"><a href="http://localhost:3000/payment?status=fail">انصراف</a></button>
+            <button class="button success" onclick="pay()"><a href="http://localhost:3000/payment?status=success">پرداخت</a></button>
+        </div>
+        <style>
+            body {
+                background-color: rgb(14, 119, 180);
+            }
+    
+            img {
+                display: flex;
+                width: 50%;
+                height: 80vh;
+                margin: 10px auto
+            }
+    
+            .buttons {
+                /* background-color: blue; */
+                display: flex;
+                justify-content: center;
+            }
+    
+    
+    
+            .button {
+                margin: 20px;
+                background-color: aqua;
+                padding: 10px 20px;
+                border-radius: 10px;
+            }
+    
+            .success {
+                background-color: green;
+            }
+    
+            .cancel {
+                background-color: red;
+            }
+    
+            .button a {
+                text-decoration: none;
+                color: white
+            }
+        </style>
+        <script>
+            function cancel() {
+                console.log('cancel')
+            }
+            function pay() {
+                console.log('pay')
+            }
+        </script>
+    </body>
+    
+    </html>
