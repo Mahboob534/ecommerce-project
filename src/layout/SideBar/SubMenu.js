@@ -1,46 +1,46 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import styled from 'styled-components';
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import styled from "styled-components";
 
 const SidebarLink = styled(Link)`
   display: flex;
-  color: black;
+  color: #fff;
   justify-content: space-between;
   align-items: center;
   padding: 20px;
   list-style: none;
-  height: 60px;
   text-decoration: none;
-  font-size: 18px;
-
+  font-size: 14px;
+ 
   &:hover {
-    background: #252831;
-    border-left: 4px solid #632ce4;
+    background: #219150;
+    border-left: 4px solid #;
     cursor: pointer;
   }
 `;
 
 const SidebarLabel = styled.span`
-  margin-left: 16px;
+  margin-right: 16px;
 `;
 
 const DropdownLink = styled(Link)`
-  background: #414757;
+background:#27ae60 ;
   height: 60px;
   padding-left: 3rem;
   display: flex;
   align-items: center;
   text-decoration: none;
-  color: #f5f5f5;
-  font-size: 18px;
-
+  color: #fff;
+  font-size: 12px !important;
+   margin-right:12px
   &:hover {
-    background: #632ce4;
+    background: #219150;
     cursor: pointer;
   }
 `;
 
 const SubMenu = ({ item }) => {
+  
   const [subnav, setSubnav] = useState(false);
 
   const showSubnav = () => setSubnav(!subnav);

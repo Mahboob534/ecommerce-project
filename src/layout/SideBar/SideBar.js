@@ -3,53 +3,40 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { SidebarData } from './SidebarData';
 import SubMenu from './SubMenu';
-import { IconContext } from 'react-icons/lib';
+
 
 const Nav = styled.div`
 direction:rtl;
-  background:lightPink;
-  height: 80px;
+  background: #27ae60;
   display: flex;
   justify-content: flex-start;
-  align-items: center;
-`;
-
-const NavIcon = styled(Link)`
-  margin-right: 2rem;
-  font-size: 2rem;
-  height: 80px;
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
+  margin-left:-5%;
+ 
 `;
 
 const SidebarNav = styled.nav`
  direction:rtl;
-  background:#dfd7f4;
-  width: 250px;
+  background: #27ae60;
+  width: 200px;
   height: 100vh;
   display: flex;
   justify-content: center;
- 
   top:18;
-  right: ${({ sidebar }) => (sidebar ? '0' : '-100%')};
-  transition: 350ms;
-  
-`;
+  `;
 
 const SidebarWrap = styled.div`
   width: 100%;
+  height:100vh
 `;
 
 const Sidebar = () => {
   const [sidebar, setSidebar] = useState(true);
 
-  const showSidebar = () => setSidebar(!sidebar);
-
+  
   return (
     <>
-    
-        <SidebarNav sidebar={sidebar}>
+    <Nav>
+    <SidebarNav sidebar={sidebar}>
           <SidebarWrap>
            
             {SidebarData.map((item, index) => {
@@ -57,6 +44,8 @@ const Sidebar = () => {
             })}
           </SidebarWrap>
         </SidebarNav>
+    </Nav>
+        
   
     </>
   );
