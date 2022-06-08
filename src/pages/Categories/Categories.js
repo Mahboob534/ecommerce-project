@@ -1,49 +1,30 @@
 import React, { useState, useMemo } from "react";
+import Styles from './Categories.module.css'
+import image from "../../assets/images/loader-img.gif";
 import { useParams } from "react-router-dom";
-import { NavLink, Navigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import LayoutUser from "../../layout/LayoutUser";
 import {
   Grid,
   Box,
   Pagination,
-  Typography,
-  CircularProgress,
-} from "@mui/material";
+  Typography,TextField,MenuItem
+  } from "@mui/material";
+ import {SortPrice} from './SortPrice' 
 
-import CardCat from "../../componentes/Card/CardCat";
-import Styles from "../../componentes/Category/category.module.css";
-
+import Category from "../../componentes/Category/Category";
 import { useFetch } from "../Stack/components/usefetch";
+
 
 function Categories() {
   let params = useParams();
   let idCategory = params.categoryId;
-
-  //console.log(idCategory);
-
+const [value,setValue]=React.useState()
   const limit = useMemo(() => 5, []);
   const [activePage, setActivePage] = useState(1);
   const { data, loading, error } = useFetch(
-    `/products?_page=${activePage}&_limit=${limit}&category=${idCategory}`
+    `/Subgroup?_page=${activePage}&_limit=${limit}&category=${idCategory}`
   );
-
-  // console.log(select);
-  //   const[rows,setRows]=useState([])
-
-  //   useEffect(() => {
-  //     getData(select);
-  //   }, [select]);
-
-  //   async function getData(select) {
-  //     try {
-  //       const products = await getOneGroupProducts(select)
-  //       setRows(products.data);
-  //     } catch (error) {
-  //       alert("loading");
-  //     }
-  //   }
-
-  // console.log('category',params);
   if (error) {
     return (
       <>
@@ -52,6 +33,7 @@ function Categories() {
       </>
     );
   }
+ console.log('value',value);
   return (
     <LayoutUser>
       <Box
@@ -59,9 +41,9 @@ function Categories() {
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
-          gap: 2,
+         
           marginInline: 2,
-          m: 5,
+         
           direction: "rtl",
           fontFamily: " IRANSans-web",
         }}
@@ -78,20 +60,66 @@ function Categories() {
               justifyContent: "center",
             }}
           >
-            <CircularProgress />
+            <img src={image} alt="" />
           </Box>
         ) : (
-          <Grid container spacing={1} justifyContent="center" sx={{ m: 5 }}>
-            {data.data.map((item) => (
-              <Grid item xs={4}>
-                <NavLink to={`/Detail/${item.id}`} className={Styles.linkCat}>
-                  <CardCat item={item} key={item.id} />
-                </NavLink>
+          <Grid container justifyContent="center" sx={{ my: 2 }}>
+            
+            {data.data.map((item, id) => (
+              <Grid
+                sx={{
+                  border: 1,
+                  borderColor: "grey.400",
+                  p: 2,
+                  borderRadius: 5,
+                  my:2
+                }}
+              >
+                <Grid  sx={{backgroundColor:'#27ae60',textAlign:'center',p:2,borderRadius:5}}>
+                  <Link
+                    to={`/Categories/${item.category}/${item.name}`}
+                    className={Styles.link}
+                    id={item.id}
+                  >
+                    <h3 key={id}> {item.name}</h3>
+                  </Link>
+                </Grid>
+                <Category
+                  idCategory={item.category}
+                  Subgroup={item.name}
+                  key={id}
+                />
               </Grid>
             ))}
           </Grid>
         )}
 
+
+
+<TextField
+              select
+              margin="dense"
+              size="small"
+              required
+              fullWidth={true}
+              name="sort"
+              type="select"
+              label="مرتب سازی"
+              id="sort"
+              autoComplete="current-sort"
+              color="success"
+             sx={{direction:"rtl"}}
+             value={value}
+             onChange={(e)=> setValue(e.target.value)}
+              
+            >
+              {SortPrice.map((category) => (
+                <MenuItem  sx={{color:"black"}} key={category.value} value={category.value}>
+                  {category.label}
+              
+                </MenuItem>
+              ))}
+            </TextField>
         <Pagination
           variant="outlined"
           defaultPage={1}
@@ -108,3 +136,4 @@ function Categories() {
 }
 
 export { Categories };
+

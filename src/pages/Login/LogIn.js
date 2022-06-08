@@ -1,19 +1,107 @@
 import React, { useState } from "react";
 
-import Styles from './login.module.css';
 
-
+import styled from "styled-components";
 import { useFormik } from "formik";
-import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { setlogin } from "../../redux/action/AdminSlice";
+import { setToken } from "../../redux/action/TokenSlice";
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 
-import { IS_LOGGED_IN,ACCESS_TOKEN } from "../../config/variable.config";
+import { IS_LOGGED_IN, ACCESS_TOKEN } from "../../config/variable.config";
 import LOGIN from "../../config/url.config";
 import { PATHS } from "../../config/routes.config";
-import {ApiAdmin} from '../../api/api'
+import http from "../../services/HttpService";
+import image from './blog-3.jpg'
+const Loginstyle = styled("div")`
+background-image: url('${image}') !important;
+  background-size:cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  width: 100%;
+  height: 100vh;
+  margin: 0!important;
+  padding-top:15%
+  
+ 
+`;
+const Field = styled('div')`
+  min-height: 50px;
+  position: relative;
+  width: 100%;
+  margin-top: 30px;
+
+`
+const Form=styled('form')`
+  position: relative;
+  z-index: 1;
+  background-color: rgba(0, 0, 0, 0.5);
+  border-radius: 10px;
+  max-width: 400px;
+ margin:0 auto;
+  padding: 45px;
+  text-align: center;
+
+  input {
+    outline: 0;
+    background: #f2f2f2;
+    width: 100%;
+    border: 0;
+    border-radius: 5px;
+    margin: 0 0 15px;
+    padding: 15px;
+    box-sizing: border-box;
+    font-size: 1.2rem;
+    font-family: "Comfortaa", cursive;
+    &:focus {
+      background: #dbdbdb;
+    }
+  }
+  button {
+    font-family: "Comfortaa", cursive;
+    text-transform: uppercase;
+    outline: 0;
+    background: #4b6cb7;
+    width: 100%;
+    border: 0;
+    border-radius: 5px;
+    padding: 15px;
+    color: #ffffff;
+    font-size: 14px;
+    -webkit-transition: all 0.3 ease;
+    transition: all 0.3 ease;
+    cursor: pointer;
+    margin-bottom: 18px;
+    &:active {
+      background: #395591;
+    }
+  }
+  span {
+    color :#65657b;
+    font-size: 25px;
+    left: 15%;
+    line-height: 14px;
+    position: absolute;
+    transform-origin: 0 50%;
+    transition: transform 200ms, color 200ms;
+    top: 41%;
+    z-index: 2;
+  }
+  a {
+    color: white;
+    width: 100%;
+    display: block;
+    text-align: left;
+    text-decoration: none;
+  }
+  `;
+  const Error=styled('p')`
+  color: #dc2f55;
+  font-size: 14px;
+  padding-left: 10px;
+  margin: 4px 0 6px 0;
+` 
+  
 
 
 const validate = (values) => {
@@ -27,6 +115,7 @@ const validate = (values) => {
 
   return errors;
 };
+
 
 const LogIn = () => {
   const [passwordVisibility, setPasswordVisibility] = useState(true);
@@ -43,14 +132,14 @@ const LogIn = () => {
   };
 
   const navigate = useNavigate();
-  const onSubmit =async (data) => {
-    localStorage.removeItem(ACCESS_TOKEN)
-    let response = await ApiAdmin.login(data)
-    localStorage.setItem(ACCESS_TOKEN, response.data.token)
-    dispatch(setlogin(true))
-    console.log(response.data.token);
-    navigate(PATHS.DASHBOARD)
-  }
+  // const onSubmit =async (data) => {
+  //   localStorage.removeItem(ACCESS_TOKEN)
+  //   let response = await ApiAdmin.login(data)
+  //   localStorage.setItem(ACCESS_TOKEN, response.data.token)
+  //   dispatch(setlogin(true))
+  //   //console.log(response.data.token);
+  //   navigate(PATHS.DASHBOARD)
+  // }
 
   const formik = useFormik({
     initialValues: {
@@ -58,51 +147,46 @@ const LogIn = () => {
       password: "",
     },
     validate,
-    onSubmit
-
-  //axios
-      //   .post('http://localhost:3002/auth/login',values)
-      //   .then((res) => {
-      //     if (res.status == 200) {
-      //      dispatch(setlogin(true))
-      //      localStorage.setItem(ACCESS_TOKEN,res.data.token)
-      //       navigate('/Dashboard',{replace:false})
-      //     }
-      //   })
-      //   .catch(() => {
-      //     alert("با این نام کاربری کاربری ثبت نشده");
-      //   });
-
-      
-    
+    onSubmit: (values) => {
+      http
+        .post("/auth/login", values)
+        .then((res) => {
+          if (res.status == 200) {
+            dispatch(setToken(res.data.token));
+           navigate(PATHS.DASHBOARD, { replace: false });
+          }
+        })
+        .catch(() => {
+          alert("نام کاربری یا رمز عبور اشتباه می باشد");
+        });
+    },
   });
   return (
-    <div>
-      <div className={Styles.field}>
-        <form className={Styles.formHolder} onSubmit={formik.handleSubmit}>
-          <div className={Styles.field}>
+    <Loginstyle>
+      <Field >
+        <Form onSubmit={formik.handleSubmit}>
+          <div>
             <input
-            className={Styles.inputlogin}
               name="username"
               type="text"
+              placeholder="نام کاربری*"
               onChange={formik.handleChange}
               value={formik.values.username}
             />
-            <label className={Styles.labelLogin} htmlFor="name">*نام کاربری </label>
             {formik.touched.username && formik.errors.username ? (
-              <p className={Styles.error}>{formik.errors.username}</p>
+              <Error>{formik.errors.username}</Error>
             ) : null}
           </div>
-          <div className={Styles.field}>
+          <div>
             <input
-             className={Styles.inputlogin}
               name="password"
               type={passwordVisibility ? "password" : "text"}
+              placeholder="کلمه عبور*"
               onChange={formik.handleChange}
               value={formik.values.password}
             />
-            <label className={Styles.labelLogin} htmlFor="password">پسورد*</label>
-            <span className={Styles.span}>
+
+            <span >
               {iconEye == "eye" ? (
                 <FaRegEye
                   icon={["fa", "FaRegEye"]}
@@ -117,19 +201,14 @@ const LogIn = () => {
             </span>
 
             {formik.touched.password && formik.errors.password ? (
-              <p className={Styles.error}>{formik.errors.password}</p>
+              <Error >{formik.errors.password}</Error>
             ) : null}
           </div>
-          <button  type="submit"  className={Styles.button}>ورود</button>
-          <Link
-           className={Styles.backLink}
-            to={PATHS.HOME}
-          >
-            بازگشت به صفحه اصلی
-          </Link>
-        </form>
-      </div>
-    </div>
+          <button type="submit">ورود</button>
+          <Link to={PATHS.HOME}>بازگشت به صفحه اصلی</Link>
+        </Form>
+      </Field>
+    </Loginstyle>
   );
 };
 export { LogIn };

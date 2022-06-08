@@ -92,8 +92,7 @@ function TablePaginationActions(props) {
 export default function CustomPaginationActionsTable(props) {
   let rows = props.row;
   let rowCat = props.rowCat;
-  let setRow = props.setRow;
-  let setRowCat = props.setRowCat;
+   let reload = props.reload
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   
@@ -116,17 +115,17 @@ export default function CustomPaginationActionsTable(props) {
   return (
     <TableContainer
       component={Paper}
-      sx={{ direction: "rtl", mr: 20, width: "60vw", height: "60vh",fontFamily:"IRANSansBold" }}
+      sx={{ direction: "rtl",width:{xs:'100%',sm:'100%',md:'60%'},height:'60vh', mx:{xs:0,sm:0,md:20}}}
       
     >
       <Table aria-label="custom pagination table">
         <TableBody sx={{ direction: "rtl" }}>
           <TableRow key={1}>
-            <TableCell style={{ width: 40 }} align="right" sx={{fontFamily:" IRANSans-web",textAlign:'center'}}>
+            <TableCell  align="right" sx={{fontFamily:" IRANSans-web",textAlign:'center'}}>
               تصویر
             </TableCell>
             <TableCell
-              style={{ width: 40 }}
+             
               component="th"
               scope="row"
               align="right"
@@ -134,24 +133,24 @@ export default function CustomPaginationActionsTable(props) {
             >
               نام کالا
             </TableCell>
-            <TableCell style={{ width: 40 }} align="right"sx={{fontFamily:" IRANSans-web",textAlign:'center'}}>
+            <TableCell align="right"sx={{fontFamily:" IRANSans-web",textAlign:'center'}}>
               دسته بندی
             </TableCell>
-            <TableCell style={{ width: 40 }} align="right"sx={{fontFamily:" IRANSans-web",textAlign:'center'}}></TableCell>
+            <TableCell align="right"sx={{fontFamily:" IRANSans-web",textAlign:'center'}}></TableCell>
           </TableRow>
           {(rowsPerPage > 0
             ? rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
             : rows
           ).map((row) => (
             <TableRow key={row.name}>
-              <TableCell style={{ width: 40 }} align="right" sx={{fontFamily:" IRANSans-web",textAlign:'center'}}>
+              <TableCell  align="right" sx={{fontFamily:" IRANSans-web",textAlign:'center'}}>
                 <img
                   src={`http://localhost:3002/files/${row.thumbnail}`}
                   className={Styles.imagethumline}
                 />
               </TableCell>
               <TableCell
-                style={{ width: 40 }}
+                
                 component="th"
                 scope="row"
                 align="right"
@@ -159,13 +158,13 @@ export default function CustomPaginationActionsTable(props) {
               >
                 {row.name}
               </TableCell>
-              <TableCell style={{ width: 40 }} align="right" sx={{fontFamily:" IRANSans-web",textAlign:'center'}}>
+              <TableCell  align="right" sx={{fontFamily:" IRANSans-web",textAlign:'center'}}>
                 {rowCat.find((itemCat) => itemCat.id == row.category).name}
               </TableCell>
-              <TableCell style={{ width: 40 }} align="right" sx={{fontFamily:" IRANSans-web",textAlign:'center'}}>
+              <TableCell  align="right" sx={{fontFamily:" IRANSans-web",textAlign:'center'}}>
                 <Button sx={{ ml: 1 }}>
                   {" "}
-                  <ModalEdit id={row.id} />{" "}
+                  <ModalEdit id={row.id} reload={reload} />{" "}
                 </Button>
                 <Button sx={{ mr: 1 }} onClick={(e)=>{
                   e.preventDefault()
@@ -187,7 +186,8 @@ export default function CustomPaginationActionsTable(props) {
                     } else {
                    await   swal("محصول حذف نشد");
                     }
-                    window.location.reload(true);
+                  reload(true)
+                  
                   })
                  } } >
                   {" "}

@@ -8,6 +8,8 @@ import DatePicker from "react-multi-date-picker";
 import persian from "react-date-object/calendars/persian";
 import persian_fa from "react-date-object/locales/persian_fa";
 import DateObject from "react-date-object";
+import { Link } from "react-router-dom";
+import {PATHS} from '../../config/routes.config'
 import { useSelector, useDispatch } from "react-redux";
 import {setOrders} from '../../redux/action/orederSlice'
 const phoneRegExp =
@@ -31,7 +33,7 @@ async function productfun(){
   productarr.push({"id":index.id,"quantity":index.cartQuantity })
   
 })
-   
+
 }
   const formik = useFormik({
     initialValues: {
@@ -81,24 +83,31 @@ useEffect(() => {
      window.location.replace("http://127.0.0.1:5500/public/payment.html");
   }
 }, [order])
-const orders = useSelector((state) => state.orders);
+//const orders = useSelector((state) => state.orders);
+
 
   return (
+
     <LayoutUser>
-      <form onSubmit={formik.handleSubmit}>
-        <Grid container sx={{ m: 8 }}>
+      {
+        cart.length == 0 ?  (<Link to={PATHS.HOME}> رفتن به صفحه اصلی</Link>) :
+
+        (<form onSubmit={formik.handleSubmit}>
+        <Grid container xs={12} sx={{p:3}} >
           <Grid
             item
-            xs={6}
-            display="flex"
-            justifyContent="center"
-            alignItems="center"
+            xs={12} sm={6} md={6}
+            
           >
-            <Grid item xs={2}>
+            <Grid item xs={12} display="flex"
+            justifyContent="right"
+            alignItems="center"
+            sx={{my:1}}>
               <label> نام </label>
-            </Grid>
-            <Grid item xs={4}>
+            
+            
               <TextField
+              sx={{mr:1}}
                 margin="dense"
                 size="small"
                 required
@@ -119,16 +128,16 @@ const orders = useSelector((state) => state.orders);
 
           <Grid
             item
-            xs={6}
-            display="flex"
-            justifyContent="center"
-            alignItems="center"
+            xs={12}  sm={6} md={6}
+            
           >
-            <Grid item xs={3}>
+            <Grid item xs={12} display="flex"
+            justifyContent="right"
+            alignItems="center"  sx={{my:1}}>
               <label> نام خانوادگی </label>
-            </Grid>
-            <Grid item xs={3}>
+            
               <TextField
+              sx={{mr:1}}
                 margin="dense"
                 size="small"
                 required
@@ -149,18 +158,19 @@ const orders = useSelector((state) => state.orders);
           </Grid>
           <Grid
             item
-            xs={6}
-            display="flex"
-            justifyContent="center"
-            alignItems="center"
+            xs={12}  sm={6} md={6}
+            
           >
-            <Grid item xs={2}>
+            <Grid item xs={12} display="flex"
+            justifyContent="right"
+            alignItems="center" sx={{my:1}}>
               <label>آدرس</label>
-            </Grid>
-            <Grid item xs={4}>
+           
+           
               <TextField
+              sx={{mr:1}}
                 margin="dense"
-                size="small"
+                size="large"
                 required
                 id="billingAddress"
                 name="billingAddress"
@@ -179,17 +189,18 @@ const orders = useSelector((state) => state.orders);
           </Grid>
           <Grid
             item
-            xs={6}
-            display="flex"
-            justifyContent="center"
-            alignItems="center"
+            xs={12}  sm={6} md={6}
+            
           >
-            <Grid>
+            <Grid  display="flex"
+            justifyContent="right"
+            alignItems="center" sx={{my:1}}>
               <label> آدرس تحویل محصول</label>
-            </Grid>
+            
             <TextField
+            sx={{mr:1}}
               margin="dense"
-              size="small"
+              size="large"
               required
               id="shippingAddress"
               name="shippingAddress"
@@ -204,19 +215,21 @@ const orders = useSelector((state) => state.orders);
                 formik.errors.shippingAddress
               }
             />
+            </Grid>
           </Grid>
           <Grid
             item
-            xs={6}
-            display="flex"
-            justifyContent="center"
-            alignItems="center"
+            xs={12}  sm={6} md={6}
+            
           >
-            <Grid>
+            <Grid display="flex"
+            justifyContent="right"
+            alignItems="center" sx={{my:1}}>
               <label>تلفن همراه</label>
-            </Grid>
+           
 
             <TextField
+            sx={{mr:1}}
               margin="dense"
               size="small"
               required
@@ -232,17 +245,18 @@ const orders = useSelector((state) => state.orders);
                 formik.errors.phone
               }
             />
+             </Grid>
           </Grid>
           <Grid
             item
-            xs={6}
-            display="flex"
-            justifyContent="center"
-            alignItems="center"
+            xs={12} sm={6} md={6}
+            
           >
-            <Grid>
+            <Grid display="flex"
+            justifyContent="right"
+            alignItems="center" sx={{my:1}}>
               <label>تاریخ تحویل </label>
-            </Grid>
+           
 
             <DatePicker
               calendar={persian}
@@ -260,12 +274,17 @@ const orders = useSelector((state) => state.orders);
               //disabled={sendToDefaultAddress}
               inputClass={Styles.custom_input}
             />
+             </Grid>
           </Grid>
         </Grid>
-        <Button sx={{ mr: 80 }} variant="contained" type="submit">
+        <Grid xs={12}>
+        <Button sx={{mx:5,my:1, fontFamily: " IRANSans-web",
+                  textAlign: "center", }} variant="contained" type="submit">
           پرداخت
-        </Button>
-      </form>
+        </Button></Grid>
+      </form>)
+      }
+     
     </LayoutUser>
   );
 }

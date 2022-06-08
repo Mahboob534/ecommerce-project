@@ -15,7 +15,7 @@ import  getOrderByStatus from '../../api/getAll/getOrderWithStatus'
 function Orders() {
   const [row, setRow] = useState([]);
 
-  const [selectedValue, setSelectedValue] = React.useState("a");
+  const [selectedValue, setSelectedValue] = React.useState("1");
 
   const handleChange = (event) => {
     setSelectedValue(event.target.value);
@@ -38,34 +38,39 @@ function Orders() {
 
   return (
     <Grid container  >
-      <Grid item xs={12} md={8}>
+      <Grid item xs={12} md={12}>
         <FormControl>
           <RadioGroup
             row
             aria-labelledby="demo-row-radio-buttons-group-label"
             name="row-radio-buttons-group"
-            sx={{ mr:30, mt:5 }}
+            sx={{px:5, mt:5,fontFamily:" IRANSans-web",textAlign:'center' }}
           >
             <FormControlLabel
               onChange={handleChange}
+              id="1"
               value="1"
               control={<Radio />}
               label="سفارشات تحویل داده شده"
-            sx={{mr:10 ,fontFamily:" IRANSans-web",textAlign:'center'}}
+            sx={{fontFamily:" IRANSans-web",textAlign:'center'}}
+            checked={ selectedValue == "1"? true : false }
 
             />
             <FormControlLabel
               onChange={handleChange}
+              id="3"
               value="3"
               control={<Radio />}
               label="سفارشات در حال تحویل "
-              sx={{mr:10 ,fontFamily:" IRANSans-web",textAlign:'center'}}
+              sx={{fontFamily:" IRANSans-web",textAlign:'center'}}
+              checked={ selectedValue == "3"? true : false }
+           
             />
           </RadioGroup>
         </FormControl>
       </Grid>
-      <Grid item xs={12} md={8}>
-        <TableOrders row={row} handleChange={handleChange}/>
+      <Grid item xs={12} md={12}>
+        <TableOrders row={row} handleChange={setSelectedValue}/>
       </Grid>
     </Grid>
   );

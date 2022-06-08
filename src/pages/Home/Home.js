@@ -1,5 +1,5 @@
 import React,{useState,useEffect} from 'react'
-import Styles from './home.module.css'
+import Styles from './Home.module.css'
 import LayoutUser from '../../layout/LayoutUser'
 import Category from '../../componentes/Category/Category'
 import {Link,Navigate, Outlat} from 'react-router-dom'
@@ -9,8 +9,11 @@ import { PATHS} from  '../../config/routes.config'
 import { useDispatch } from "react-redux";
 import {setCategory} from '../../redux/action/CategorySlice'
 import Categories from '../Categories/Categories'
+import Carousel from '../../componentes/Carsousel/Carousel'
 import { ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
+import ShoppingContainer from '../../componentes/ShoppingComtainer/ShoppingContainer'
+import { CenterFocusStrong } from '@mui/icons-material'
  function Home() {
 
 
@@ -32,16 +35,21 @@ console.log(rowCat);
   return (
     <LayoutUser >
       <ToastContainer/>
-     <Grid container  justifyContent="right" sx={{m:2}} >
+      <Carousel/>
+      
+     <Grid container  justifyContent="right" >
       
        {rowCat ? rowCat.map((item ,id) => (
-              <Grid sx={{border:1,borderColor:"grey.400", p:2,borderRadius:5,m:2 }}>
-                 <Link  to={`/Categories/${item.id}`} className={Styles.titleCat}  id={item.id} onClick={()=>dispatch(setCategory(item.id))}>
-                   <h3 key={id}> {item.name}</h3>
+              <Grid sx={{border:1,borderColor:"grey.400", p:2,borderRadius:5 ,my:2 }}>
+                
+                   <Grid xs={12} sx={{backgroundColor:'#27ae60',textAlign:'center',p:1,borderRadius:5}}>
+                   <Link  to={`/Categories/${item.id}`} className={Styles.link}  id={item.id} >
+                   <h3  key={id}  > {item.name}</h3></Link> 
+                   </Grid>
                   
-                 </Link> 
                  
-                 <Category idCategory={item.id} key={id} />
+                 
+                 <Category idCategory={item.id} Subgroup={""} key={id} />
                   </Grid>
                  ))
               
@@ -53,7 +61,10 @@ console.log(rowCat);
     
             
     </Grid>
-    
+    <Grid >
+    <ShoppingContainer/>
+    </Grid>
+   
     </LayoutUser>
   )
 }

@@ -13,18 +13,26 @@ import LayoutUser from '../../layout/LayoutUser';
 import { Link,useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
+import getOneProducts from '../../api/getAll/getOneProduct';
 
 function Cart() {
 
   const cart = useSelector((state) => state.cart);
+
   const dispatch = useDispatch();
 const navigate = useNavigate()
   useEffect(() => {
     dispatch(getTotals());
   }, [cart, dispatch]);
-
+  
   const handleAddToCart = (product) => {
-    dispatch(addToCart(product));
+    console.log(product);
+if(product.count > product.cartQuantity){
+  dispatch(addToCart(product));
+}else{
+  toast.error("محصول موجودی ندارد", {position: "bottom-left",})
+}
+    
   };
   const handleDecreaseCart = (product) => {
     dispatch(decreaseCart(product));
@@ -80,7 +88,10 @@ const navigate = useNavigate()
                 <div className={Styles.cartproduct}>
                   <img src={`http://localhost:3002/files/${cartItem.thumbnail}`} alt={cartItem.name} />
                   <div>
-                    <h3>{cartItem.name}</h3>
+                  <Link to={`/Detail/${cartItem.id}`}>
+                  <h3>{cartItem.name}</h3>
+                      </Link>
+                    
                     <p>{cartItem.desc}</p>
                     <button onClick={() => handleRemoveFromCart(cartItem)}>
                       حذف

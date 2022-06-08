@@ -1,38 +1,34 @@
 import React, { useState, useEffect } from "react";
-import { Grid,Button } from "@mui/material";
-import TableStack from "../Stack/components/TableStack";
-import gatAllProduct  from '../../api/getAll/getAllproduct'
+import { Grid } from "@mui/material";
+import gatAllProduct from "../../api/getAll/getAllproduct";
 import { useSelector } from "react-redux";
-import SamplePaginaion from './components/sample'
-import axios from 'axios'
+import SamplePaginaion from "./components/TableStacks";
+
 function Stack() {
   const [row, setRow] = useState([]);
- 
+
   let changeArr = useSelector((state) => state.ArrayIndex);
-console.log(changeArr);
+  console.log(changeArr);
   useEffect(() => {
-    getData()
+    getData();
   }, []);
   async function getData() {
     try {
       const products = await gatAllProduct();
-           setRow(products.data);
-     
+      setRow(products.data);
     } catch (error) {
-     alert("loading");
+      alert("loading");
     }
   }
- 
-  return (
-    <Grid container >
-      <Grid item xs={6} md={12} sx={{mt:10, mr:30}}>
-        <h1 > مدیریت موجودی و قیمت ها </h1>
-      </Grid>
-      
 
-      <Grid item xs={12} md={8}>
-         {/* <TableStack row={row} />  */}
-<SamplePaginaion/> 
+  return (
+    <Grid container>
+      <Grid item xs={12} md={12} sx={{ mt: 5, px: 5 }}>
+        <h2> مدیریت موجودی و قیمت ها </h2>
+      </Grid>
+
+      <Grid item xs={12} md={12}>
+        <SamplePaginaion />
       </Grid>
     </Grid>
   );

@@ -1,10 +1,26 @@
-import React from 'react'
+import React, { useState, useEffect } from "react";
+import { Outlet } from "react-router-dom";
+import LayoutAdmin from "../../layout/LayoutAdmin";
 
 
- function Dashboard() {
+
+function Dashboard() {
+  // let dispatch=useDispatch()
+  //  const [rowCat,setRowCat]=useState([])
+  //  useEffect(()=>{
+  //   axios.get("http://localhost:3002/category").then((res)=> dispatch(setres.data) )
+  // })
+  // dispatch()
   return (
-    <div  style={{ height:'70vh'}}>   
-      Dashboard</div>
-  )
+    <LayoutAdmin>
+       
+    <div style={{height:"100vh"}}>
+    
+      <Outlet />
+    
+    </div>
+    </LayoutAdmin>
+  );
 }
-export default Dashboard
+
+export { Dashboard };

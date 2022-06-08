@@ -8,10 +8,11 @@ import Table from "./components/Tabel/Table";
 export default function ProductInfo() {
   const [row, setRow] = useState([]);
   const [rowCat, setRowCat] = useState([]);
-
+  const [reload, setReload] = React.useState(false);
   useEffect(() => {
     getData();
-  }, []);
+    setReload(false)
+  },[reload]);
   async function getData() {
     try {
       const products = await gatAllProduct();
@@ -25,14 +26,14 @@ export default function ProductInfo() {
  // console.log(rowCat);
   return (
     <Grid container >
-      <Grid item xs={6} md={4} sx={{ mr: 25 }}>
+      <Grid item xs={12} sm={10} md={12} sx={{py:4,px:7 }}>
         <h1>مدیریت کالاها</h1>
       </Grid>
-      <Grid item xs={6} md={4}>
-        <ModalProduct hand />
+      <Grid item xs={12} sm={12} mx={{sx:0,sm:0,md:15}}>
+        <ModalProduct reload={setReload} />
       </Grid>
-      <Grid item xs={12} md={8}>
-        <Table row={row} rowCat={rowCat} setRow={setRow} setRowCat={setRowCat} />
+      <Grid item xs={12} sm={12} md={12}>
+        <Table row={row} rowCat={rowCat} reload={setReload} />
       </Grid>
     </Grid>
   );

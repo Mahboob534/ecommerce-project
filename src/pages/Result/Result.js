@@ -1,7 +1,7 @@
 import React from 'react'
-
-export default function Result() {
+ function Result() {
   return (
     <div>Result</div>
   )
 }
+export {Result}

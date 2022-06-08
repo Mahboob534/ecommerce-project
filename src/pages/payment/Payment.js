@@ -12,15 +12,15 @@ import addOrder from "../../api/postAll/addOrder";
 import { setOrders } from "../../redux/action/orederSlice";
 import { clearCart } from "../../redux/action/cartSlice";
 
-
 function Payment() {
+ 
   const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
   const customDispatch = useDispatch();
   const orderInformation = JSON.parse(localStorage.getItem("orders"));
   const [product, setProduct] = useState([]);
   //console.log(orderInformation);
-
+ 
   useEffect(() => {
     (async () => {
       try {
@@ -54,9 +54,10 @@ function Payment() {
   //   }
   // }, []);
 
-  console.log(product);
+ //console.log(product);
 
   async function handleUpdateProduct() {
+     
     orderInformation.orderItems.map(async (item) => {
       const product = await getOneProducts(item.id);
       const data = product.data;
@@ -70,12 +71,13 @@ function Payment() {
         customDispatch(setOrders(""));
         localStorage.removeItem("order")
         customDispatch(clearCart());
+        
       }
     });
   }
   return (
     <LayoutUser>
-      <div className="content">
+      <div >
         {searchParams.get("status") == "success" ? (
           <div className={Styles.paymentSuccess}>
             <GiConfirmed />

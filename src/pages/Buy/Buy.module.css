@@ -1,6 +1,6 @@
 .custom_input {
     width: 100%;
-    height: 2rem;
+    height: 2.5rem;
     border: 0.1rem solid #ccc;
     border-radius: 0.4rem;
     padding: 0 1rem;
@@ -8,4 +8,5 @@
     color: #333;
     outline: none;
     text-align: center;
+margin-right:2%
 }
