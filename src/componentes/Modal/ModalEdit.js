@@ -6,13 +6,15 @@ import Modal from '@mui/material/Modal';
 import axios from 'axios'
 import { FiEdit2 } from "react-icons/fi";
   
-import FormEdit from "../../componentes/From/FormEdit"
+import FormEdit1 from "../../componentes/From/FormEdit1"
 const style = {
   position: 'absolute',
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
-  width: '60%',
+  width: '70%',
+  height:'100%',
+  overflow:'scroll',
   bgcolor: 'background.paper',
   border: '2px solid #000',
   boxShadow: 24,
@@ -21,6 +23,7 @@ const style = {
 
 export default function ModalEdit( props) {
     let id=props.id
+    let reload=props.reload
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -47,7 +50,7 @@ React.useEffect(()=>{
           <Typography id="modal-modal-title" variant="h4" component="h2">
           ویرایش و افزودن کالا
           
-           <FormEdit data={product[0]}/> 
+           <FormEdit1 data={product[0]} reload={reload} setOpen={setOpen}/> 
           </Typography>
          
         </Box>

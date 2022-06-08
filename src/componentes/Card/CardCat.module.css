@@ -1,11 +1,10 @@
-
-.linkCat{
+.link{
     text-align: right !important;
     display: block !important;
     text-decoration: none ;
-   color:#fff !important;
+   color:#000 !important;
 
 }
-.linkCat:hover{
+.link:hover{
 color:brown
 }

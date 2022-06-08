@@ -22,6 +22,7 @@ import {
   import addProduct from '../../api/postAll/AddProduct'
 import UploadImage from '../../api/postAll/UploadImage'
 import Perview from './Perview';
+import { SettingsPowerRounded } from "@mui/icons-material";
   const validationSchema = yup.object().shape({
     name: yup.string().required(" فیلد ضروری است"),
     price: yup.number().required(" فیلد ضروری است"),
@@ -32,7 +33,7 @@ import Perview from './Perview';
     category: yup.string().required(" فیلد ضروری است"),
     description: yup.string().required(" فیلد ضروری است"),
   });
-  const FormProduct = ({ data }) => {
+  const FormProduct = ({ data ,reload ,setOpen}) => {
     
     const formik = useFormik({
       enableReinitialize:true,
@@ -86,7 +87,8 @@ import Perview from './Perview';
               } else {
              await   swal("محصول اضافه نشد");
               }
-              window.location.reload(true);
+              reload(true)
+              setOpen(false)
             })
         //    axios
         //     .post("http://localhost:3002/products", formData)

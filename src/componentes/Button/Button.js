@@ -1,7 +1,8 @@
 import React from 'react'
-
-export default function Button() {
+import style from '../../assets/styles/style.css'
+export default function Button(props) {
+  const title=props.title
   return (
-    <div>Button</div>
+    <button className='button' type="submit">{title}</button>
   )
 }

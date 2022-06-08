@@ -1,24 +1,33 @@
 import React from "react";
-import style from "../../assets/styles/style.css";
+import Styles from './CardCat.module.css'
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import { useDispatch } from "react-redux";
 import { Button, CardActionArea } from "@mui/material";
-import { NavLink, Navigate } from "react-router-dom";
+import { NavLink} from "react-router-dom";
 import { addToCart } from "../../redux/action/cartSlice";
-import Styles from '../Category/category.module.css'
+
+import { ToastContainer, toast } from "react-toastify";
 export default function CardCat(props) {
   let product = props.item;
   const dispatch = useDispatch();
   const handleAddToCart = (product) => {
-    dispatch(addToCart(product));
+    if (product.count == 0 || Number(product.count)-Number(product.cartQuantity) < product.cartQuantity){
+      toast.error("محصول موجودی ندارد", {position: "bottom-left",})
+    }else {
+      
+      dispatch(addToCart(product));
+    }
+  
    
   };
   return (
-    <Card sx={{ width: 230, height: 240, m: 2 }}>
-       <NavLink  to={`/Detail/${product.id}`} className={Styles.linkCat}>
+  
+    <Card sx={{ width: 230, height: 240 }}>
+      <ToastContainer/>
+       <NavLink  to={`/Detail/${product.id}`} className={Styles.link}>
       <CardActionArea>
         <CardMedia
           component="img"
@@ -29,16 +38,16 @@ export default function CardCat(props) {
           alt="green iguana"
         />
         <CardContent sx={{fontFamily:"IRANSans-web",fontSize:'12px'}}>
-          <Typography gutterBottom variant="h6" component="div" sx={{m:1}}>
+          <Typography gutterBottom variant="h6" component="div" >
             <h6>{product.name}</h6>
           </Typography>
-          <Typography variant="body2">
+          <Typography  >
             <h4> قیمت: {product.price} تومان</h4>
           </Typography>
         </CardContent>
       </CardActionArea>
       </NavLink>
-      <Button className="IRANSans" size="large" color="primary" sx={{ mr: 2,fontFamily:" IRANSans-web",textAlign:'center' }} onClick={() => handleAddToCart(product)}>
+      <Button  size="large" color="primary" sx={{ mt:{xs:2,sm:2,md:0},p:2, fontFamily:" IRANSans-web",textAlign:'center' }} onClick={() => handleAddToCart(product)}>
         اضافه کردن به سبد خرید
       </Button>
     </Card>

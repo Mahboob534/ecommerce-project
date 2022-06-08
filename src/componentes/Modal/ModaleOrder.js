@@ -4,8 +4,9 @@ import TableOrderModal from "../../pages/Orders/components/TableOrderModal";
 import gatAllProduct from "../../api/getAll/getAllproduct";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
-import { ACCESS_TOKEN } from "../../config/variable.config";
-import {convertTimeStampToDate} from '../../Utils/convetTime'
+import updateOneOrder from '../../api/putAll/updateOneOrder'
+import { convertTimeStampToDate } from "../../Utils/convetTime";
+
 const style = {
   position: "absolute",
   top: "50%",
@@ -21,11 +22,13 @@ const style = {
 export default function ModalOrder(props) {
   let data = props.data;
   let handleChange = props.handleChange;
+
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
   const [product, setProduct] = React.useState([]);
+
   useEffect(() => {
     getData();
   }, []);
@@ -39,21 +42,22 @@ export default function ModalOrder(props) {
       alert("loading");
     }
   }
-  const token = JSON.parse(localStorage.getItem(ACCESS_TOKEN));
-  console.log(token);
-  function changeStatus() {
-    data.orderStatus = "1";
-    axios
-      .put(`http://localhost:3002/orders/${data.id}`, data)
-      .then((res) => {
-        toast.info("وضعیت سفارش تغییر کرد", { position: "bottom-left" });
-        handleChange(3);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }
 
+  async function changeStatus() {
+    try {
+      data.orderStatus = "1";
+      const response = await updateOneOrder(data.id, data);
+      if (response.status == 200) {
+        toast.info("وضعیت سفارش تغییر کرد", { position: "bottom-left" });
+        handleChange("1");
+        setOpen(false);
+      }
+    } catch (error) {
+      return Promise.request;
+    }
+  }
+  //const reload = useSelector((state) => state.reload);
+  //console.log(reload);
   return (
     <div>
       <ToastContainer />
@@ -92,7 +96,9 @@ export default function ModalOrder(props) {
             <label>تلفن : {data.phone}</label>
           </Grid>
           <Grid item xs={12}>
-            <label>زمان تحویل : {convertTimeStampToDate(data.delivery)} {}</label>
+            <label>
+              زمان تحویل : {convertTimeStampToDate(data.delivery)} {}
+            </label>
           </Grid>
           <Grid item xs={12}>
             <label>زمان سفارش : {convertTimeStampToDate(data.createdAt)}</label>

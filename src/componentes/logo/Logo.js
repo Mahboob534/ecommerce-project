@@ -6,8 +6,8 @@ import {PATHS} from '../../config/routes.config'
 import { Home } from '../../pages';
 export default function Logo() {
   return (
-  <Box component="span" >
-    <Link className="image" to={PATHS.HOME}><img src={logo} /></Link>
+  <Box component="span" sx={{direction:"rtl"}} >
+    <Link  to={PATHS.HOME}><img className="image" src={logo} /></Link>
   </Box>
 
     

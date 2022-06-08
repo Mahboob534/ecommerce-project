@@ -10,20 +10,23 @@ const style = {
   left: '50%',
   transform: 'translate(-50%, -50%)',
   width:'70%',
+  height:'100%',
+  overflow:'scroll',
   bgcolor: 'background.paper',
   border: '2px solid #000',
   boxShadow: 24,
   p: 4,
 };
 
-export default function ModalProduct() {
+export default function ModalProduct(props) {
+  let reload=props.reload
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
   return (
     <div>
-      <Button sx={{backgroundColor:"#86efac", width:'100px', m:3 }} variant="outlined" onClick={handleOpen}> افزودن کالا</Button>
+      <Button sx={{backgroundColor:"#86efac", width:'100px', m:3 ,fontFamily:" IRANSans-web"}} variant="outlined" onClick={handleOpen}> افزودن کالا</Button>
       <Modal
         open={open}
         onClose={handleClose}
@@ -34,7 +37,7 @@ export default function ModalProduct() {
           <Typography id="modal-modal-title" variant="h4" component="h2">
           ویرایش و افزودن کالا
           
-          <FormProduct data={""}/>
+          <FormProduct data={""} reload={reload} setOpen={setOpen}/>
           </Typography>
          
         </Box>

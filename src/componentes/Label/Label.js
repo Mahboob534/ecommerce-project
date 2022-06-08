@@ -1,7 +1,9 @@
 import React from 'react'
-
-export default function Label() {
+import style from '../../assets/styles/style.css'
+export default function Label(props) {
+  const forLabel = props. htmlFor
+  const title = props.title
   return (
-    <div>Label</div>
+    <label className='label' htmlFor={forLabel}>*{title}</label>
   )
 }
