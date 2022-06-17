@@ -1,9 +1,11 @@
-import './App.css';
+import style from "./assets/styles/style.css"
 import RouteApp from './route/RouteApp';
 
 function App() {
   return (
-    <RouteApp/>
+   
+     <RouteApp/>
+    
   )
 }
 

@@ -6,12 +6,13 @@ import SamplePaginaion from "./components/TableStacks";
 
 function Stack() {
   const [row, setRow] = useState([]);
-
+  const [reload ,setReload]=useState(false) 
   let changeArr = useSelector((state) => state.ArrayIndex);
   console.log(changeArr);
   useEffect(() => {
     getData();
-  }, []);
+    setReload(false)
+  },[reload]);
   async function getData() {
     try {
       const products = await gatAllProduct();
@@ -28,7 +29,7 @@ function Stack() {
       </Grid>
 
       <Grid item xs={12} md={12}>
-        <SamplePaginaion />
+        <SamplePaginaion setReload={setReload} />
       </Grid>
     </Grid>
   );

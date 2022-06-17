@@ -14,18 +14,23 @@ import {
 } from "@mui/material";
 import { useFetch } from "./usefetch";
 import { Grid, Button } from "@mui/material";
-import axios from "axios";
+import {VscTriangleUp,VscTriangleDown} from 'react-icons/vsc'
 import swal from "sweetalert";
 import EasyEdit, { Types } from "react-easy-edit";
 import updateOneProduct from "../../../api/putAll/updateOneProduct";
 import getOneProducts from '../../../api/getAll/getOneProduct'
-const SamplePaginaion = () => {
+const SamplePaginaion = (props) => {
+  let reload=props.setReload
+
+
   let changeArr = [];
+  const [check,setCheck]=useState(false)
   const [editMode, seteditMode] = useState(false);
   const limit = useMemo(() => 5, []);
   const [activePage, setActivePage] = useState(1);
-  const { data, loading, error } = useFetch(
-    `/products?_page=${activePage}&_limit=${limit}}`
+  const { data, loading, error } = useFetch(check?
+    `/products?_page=${activePage}&_limit=${limit}}&_sort=count&_order=asc`: `/products?_page=${activePage}&_limit=${limit}}&_sort=count&_order=desc`
+    
   );
 
   if (error) {
@@ -53,7 +58,7 @@ const SamplePaginaion = () => {
     >
       <TableContainer
         component={Paper}
-        sx={{ direction: "rtl", textAlign: "center",height:'80%'}}
+        sx={{ direction: "rtl", textAlign: "center",height:{xs:'70%',sm:'80%',md:'100%'}}}
       >
         <Grid item xs={12} md={12}>
         <Button
@@ -94,7 +99,8 @@ const SamplePaginaion = () => {
               } else {
                 await swal("محصول تغییرات اعمال نشد");
               }
-              window.location.reload(true);
+              reload(true)
+              // window.location.reload(true);
             });
           }}
         >
@@ -122,7 +128,7 @@ const SamplePaginaion = () => {
               <TableCell
                 sx={{ fontFamily: " IRANSans-web", textAlign: "center" }}
               >
-                موجودی
+                موجودی <Button onClick={()=>setCheck(!check)}>{ check ? <VscTriangleDown/>  : <VscTriangleUp/> } </Button>
               </TableCell>
               <TableCell
                 sx={{ fontFamily: " IRANSans-web", textAlign: "center" }}
@@ -196,10 +202,11 @@ const SamplePaginaion = () => {
         defaultPage={1}
         page={activePage}
         count={Math.ceil(data?.headers["x-total-count"] / limit)}
-      
+        
         onChange={(_, page) => {
           console.log("page:", page);
           setActivePage(page);
+          
         }}
       />
     </Box>

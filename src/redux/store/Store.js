@@ -1,22 +1,28 @@
 import { configureStore } from "@reduxjs/toolkit";
 import productReduser from "../action/ProductSlice";
-import adminReduser from "../action/AdminSlice";
+import TokenReduser from "../action/TokenSlice";
 import CategoryReduser from "../action/CategorySlice";
-
+import { ACCESS_TOKEN } from "../../config/variable.config";
+import cartReducer, { getTotals } from "../action/cartSlice";
+import OrderReduser from '../action/orederSlice'
+import ReloadSlice from '../action/ReloadSlice'
 export const store = configureStore({
   devTools: true,
-  // preloadedState:loadpresatate(),
+  preloadedState:loadpresatate(),
   reducer: {
-    admin: adminReduser,
+    token: TokenReduser,
     category: CategoryReduser,
     product: productReduser,
+    cart: cartReducer,
+    orders:OrderReduser,
+    reload:ReloadSlice,
   },
 });
 
 function saveState(state) {
   try {
-    const serialisedState = JSON.stringify(state);
-    localStorage.setItem("login", serialisedState);
+    const serialisedState = JSON.stringify(state.ACCESS_TOKEN);
+    localStorage.setItem(ACCESS_TOKEN, serialisedState);
   } catch (e) {
     console.warn(e);
   }
@@ -24,7 +30,7 @@ function saveState(state) {
 
 function loadpresatate() {
   try {
-    const serialisedState = localStorage.getItem("login");
+    const serialisedState = localStorage.getItem(ACCESS_TOKEN);
     if (serialisedState === null) return undefined;
     return JSON.parse(serialisedState);
   } catch (e) {
@@ -33,4 +39,4 @@ function loadpresatate() {
   }
 }
 
-store.subscribe(() => saveState({ login: store.getState().admin }));
+store.subscribe(() => saveState({ ACCESS_TOKEN: store.getState().token }));

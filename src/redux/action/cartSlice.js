@@ -1,19 +1,23 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { toast } from "react-toastify";
 
+
 const initialState = {
   cartItems: localStorage.getItem("cartItems")
     ? JSON.parse(localStorage.getItem("cartItems"))
     : [],
   cartTotalQuantity: 0,
   cartTotalAmount: 0,
-   
+  optionalCount: 0,
 };
 
 const cartSlice = createSlice({
   name: "cart",
   initialState,
   reducers: {
+    // setOptioalCount: (state, action) => {
+    //   state.optionalCount = action.payload;
+    // },
     addToCart(state, action) {
       const existingIndex = state.cartItems.findIndex(
         (item) => item.id === action.payload.id
@@ -24,11 +28,17 @@ const cartSlice = createSlice({
           ...state.cartItems[existingIndex],
           cartQuantity: state.cartItems[existingIndex].cartQuantity + 1,
         };
-        toast.info(" تعداد محصول افزایش یافت", {
-          position: "bottom-left",
-        });
+        //  if(state.optionalCount > 0){
+        //   state.optionalCount= action.payload=0
+        //  }
+        // toast.info(" تعداد محصول افزایش یافت", {
+        //   position: "bottom-left",
+        // });
       } else {
-        let tempProductItem = { ...action.payload, cartQuantity: 1 };
+        let tempProductItem = {
+          ...action.payload,
+          cartQuantity:1,
+        };
         state.cartItems.push(tempProductItem);
         toast.success("محصول به سبد خرید اضافه شد ", {
           position: "bottom-left",
@@ -106,7 +116,13 @@ const cartSlice = createSlice({
   },
 });
 
-export const { addToCart, decreaseCart, removeFromCart, getTotals, clearCart } =
-  cartSlice.actions;
+export const {
+  setOptioalCount,
+  addToCart,
+  decreaseCart,
+  removeFromCart,
+  getTotals,
+  clearCart,
+} = cartSlice.actions;
 
 export default cartSlice.reducer;
